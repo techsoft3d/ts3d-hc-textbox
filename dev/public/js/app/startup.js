@@ -1,8 +1,14 @@
 var myLayout;
 var textBoxOperator;
-
 async function msready() {
 
+
+    textBoxOperator = new hcTextBox.TextBoxOperator(hwv);
+    textBoxOperator.setAllowCreation(1);
+    const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
+    hwv.operatorManager.push(opHandle);
+
+    new TextBoxTitleBar(textBoxOperator.getTextBoxManager(), textBoxOperator);
 
 
 }
@@ -75,13 +81,10 @@ function createUILayout() {
 
     var viewermenu = [     
         {
-            name: 'Activate',
+            name: 'Create Text Box',
             fun: function () {
             
-                const operatorManager = hwv.operatorManager;
-                textBoxOperator = new hcTextBox.TextBoxOperator(hwv);
-                const markupOperatorHandle = operatorManager.registerCustomOperator(textBoxOperator);
-                operatorManager.push(markupOperatorHandle);
+                textBoxOperator.setAllowCreation(1);
             }
         },                                                     
         
