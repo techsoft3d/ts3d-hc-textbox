@@ -159,7 +159,6 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             "text": this._textBoxText ? encodeURIComponent($(this._textBoxText).val()) : "",
             "userdata": this._userdata,
             "checkVisibility": this._checkVisibility
-//            "extraDivText": encodeURIComponent($(this._extraDivText).val())
         };
         return json;
     }

@@ -53,20 +53,6 @@ export class TextBoxManager {
         return this._markupUpdatedCallback;
     }
 
-
-    handleResize() {
-        if (!this._useMarkupManager) {
-        let _this = this;
-        setTimeout(function () {
-            _this.refreshMarkup();
-            }, 0);
-        }
-    }
-
-    setUseMarkupManager(use) {
-        this._useMarkupManager = use;
-    }
-
     getUseMarkupManager() {
         return this._useMarkupManager;
     }
@@ -148,7 +134,6 @@ export class TextBoxManager {
         }
     }
 
-
     pickMarkupItem(position) {
         if (this._useMarkupManager) {
             return this._viewer.markupManager.pickMarkupItem(position);
@@ -172,14 +157,5 @@ export class TextBoxManager {
         }
 
         this.refreshMarkup();
-
     }
-
-    checkAllVisibilities() {
-        for (let i=0;i<this._markups.length;i++) {
-            this._markups[i].checkVisibility();
-        }
-        
-    }
-
 }
