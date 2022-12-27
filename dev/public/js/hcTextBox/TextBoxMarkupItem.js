@@ -4,7 +4,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     static fromJson(textBoxManager,json) {
         let markup = new TextBoxMarkupItem(textBoxManager, Communicator.Point3.fromJson(json.firstPoint), Communicator.Point3.fromJson(json.secondPoint), Communicator.Point3.fromJson(json.secondPointRel), 
         json.font, json.fontSize, Communicator.Color.fromJson(json.backgroundColor), Communicator.Color.fromJson(json.circleColor), json.circleRadius, 
-        json.maxWidth, json.pinned,json.extraDivText ? json.extraDivText : null, json.uniqueid,json.userdata);
+        json.maxWidth, json.pinned,json.extraDivText ? json.extraDivText : null, json.uniqueid,json.userdata, json.showLeaderLine);
         markup.setText(decodeURIComponent(json.text));
         markup.setCheckVisibility(json.checkVisibility);
         markup.deselect();
@@ -20,7 +20,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     }
 
     constructor(textBoxManager, firstPoint, secondPoint = null,secondPointRel = null,fontStyle = "monospace", fontSize = "12px", backgroundColor =  new Communicator.Color(238,243,249),
-         circleColor = new Communicator.Color(128,128,255), circleRadius = 4.0, maxWidth = 300, pinned = false, extraDiv = null,uniqueid = null, userdata = null, checkVisibility = false) {
+         circleColor = new Communicator.Color(128,128,255), circleRadius = 4.0, maxWidth = 300, pinned = false, extraDiv = null,uniqueid = null, userdata = null, checkVisibility = false, showLeaderLine = true) {
         super();
         this._textBoxManager = textBoxManager;
         this._viewer = textBoxManager._viewer;
@@ -62,6 +62,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
         this._initialize();
         this._hidden = false;
+        this._showLeaderLine = showLeaderLine;
     }
 
     show() {
@@ -158,7 +159,9 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             "allowEditing": this._allowEditing,
             "text": this._textBoxText ? encodeURIComponent($(this._textBoxText).val()) : "",
             "userdata": this._userdata,
-            "checkVisibility": this._checkVisibility
+            "checkVisibility": this._checkVisibility,
+            "showLeaderLine": this._showLeaderLine
+
         };
         return json;
     }
@@ -219,34 +222,66 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             this._secondPointRel = new Communicator.Point2(p2.x / dims.width, p2.y / dims.height);
         }
 
+
         let w = parseInt($(this._textBoxDiv).css("width"));
         let h = parseInt($(this._textBoxDiv).css("height"));
         let fsecond = new Communicator.Point2(0,0);
-        if (p1.x <= p2.x + w/2) {
+
+
+        if (p1.x <= p2.x) {
             fsecond.x = p2.x;
         }
-        else {
+        else if (p1.x >= p2.x + w) {
             fsecond.x = p2.x + w;
         }
+        else {
+            if (Math.abs(p1.x - (p2.x + w/2)) < w/4) {
+                fsecond.x = p2.x + w/2;
+            }
+            else if (p1.x > p2.x + w/2) {
+                fsecond.x = p2.x + w;
+            }
+            else {
+                fsecond.x = p2.x;
+            }
+        }
 
-        if (p1.y <= p2.y + h/2) {
+        
+        if (p1.y <= p2.y) {
             fsecond.y = p2.y;
         }
-        else {
+        else if (p1.y >= p2.y + h) {
             fsecond.y = p2.y + h;
         }
-
-
-        this._lineGeometryShape.pushPoint(fsecond);
-        
-        if (!this._textBoxManager.getUseMarkupManager()) {
-            this._addPolylineElement(this._lineGeometryShape);
-            this._addCircleElement(this._circleGeometryShape);
-        }
         else {
-          
+            if (Math.abs(p1.y - (p2.y + h/2)) < h/4) {
+                fsecond.y = p2.y + h/2;
+            }
+            else if (p1.y > p2.y + h/2) {
+                fsecond.y = p2.y + h;
+            }
+            else {
+                fsecond.y = p2.y;
+            }
+        }
+
+
+
+
+
+
+        if (this._showLeaderLine) {
+            this._lineGeometryShape.pushPoint(fsecond);
+
+            if (!this._textBoxManager.getUseMarkupManager()) {
+                this._addPolylineElement(this._lineGeometryShape);
+                this._addCircleElement(this._circleGeometryShape);
+            }
+            else {
+
                 renderer.drawPolyline(this._lineGeometryShape);
                 renderer.drawCircle(this._circleGeometryShape);
+            }
         }
 
 
