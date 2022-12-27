@@ -281,7 +281,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
             if (point.x >= minx && point.x <= maxx &&
                 point.y >= miny && point.y <= maxy) {
-                this.deselect();
+              //  this.deselect();
                 this._textHit = true;
                 return true;
             }
@@ -338,7 +338,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             $(this._textBoxText).focus();
             $(this._textBoxDiv).css("pointer-events", "auto");
         }
-        $(this._textBoxDiv).css("outline-width", "2px");
+        $(this._textBoxDiv).css("outline-width", "3px");
         this._selected = true;
     }
 
