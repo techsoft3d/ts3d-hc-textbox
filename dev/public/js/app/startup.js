@@ -3,13 +3,6 @@ var textBoxOperator;
 async function msready() {
 
 
-    textBoxOperator = new hcTextBox.TextBoxOperator(hwv);
-    textBoxOperator.setAllowCreation(1);
-    const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
-    hwv.operatorManager.push(opHandle);
-
-    new TextBoxTitleBar(textBoxOperator.getTextBoxManager(), textBoxOperator);
-
 
 }
 
@@ -79,14 +72,49 @@ function createUILayout() {
     });
     myLayout.init();
 
-    var viewermenu = [     
+    var viewermenu = [
+        {
+            name: 'Setup Basic Text Box',
+            fun: function () {
+
+                textBoxOperator = new hcTextBox.TextBoxOperator(hwv);
+                const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
+                hwv.operatorManager.push(opHandle);
+
+            }
+        },
+        {
+            name: 'Setup Text Box with Title Bar',
+            fun: function () {
+                          
+                textBoxOperator = new hcTextBox.TextBoxOperator(hwv);
+//                textBoxOperator.setAllowCreation(1);
+                const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
+                hwv.operatorManager.push(opHandle);
+                new TextBoxTitleBar(textBoxOperator.getTextBoxManager(), textBoxOperator);
+
+            }
+        },   
+        {
+            name: 'Setup Custom Text Box',
+            fun: function () {
+                          
+                textBoxOperator = new hcTextBox.TextBoxOperator(hwv);                
+//                textBoxOperator.setAllowCreation(1);
+                const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
+                hwv.operatorManager.push(opHandle);
+                textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallback);
+
+
+            }
+        },             
         {
             name: 'Create Text Box',
             fun: function () {
             
                 textBoxOperator.setAllowCreation(1);
             }
-        },                                                     
+        },                                                   
         
     ];
 
@@ -94,5 +122,13 @@ function createUILayout() {
         'displayAround': 'trigger',
         'containment': '#viewerContainer'
     });
+
+}
+
+
+function createMarkupItemCallback(manager, pos) {
+    let markup = new CustomTextBoxMarkupItem(manager, pos, undefined, undefined, undefined, undefined, undefined,
+        undefined, undefined, undefined, true, undefined, undefined, null, false);
+    return markup;
 
 }

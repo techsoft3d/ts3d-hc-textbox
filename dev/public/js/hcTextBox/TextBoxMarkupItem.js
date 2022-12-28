@@ -26,6 +26,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._viewer = textBoxManager._viewer;
         this._font = fontStyle;
         this._fontSize = fontSize;
+        this._created = true;
         if (uniqueid) {
             this._uniqueid = uniqueid;
         }
@@ -265,11 +266,6 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             }
         }
 
-
-
-
-
-
         if (this._showLeaderLine) {
             this._lineGeometryShape.pushPoint(fsecond);
 
@@ -287,6 +283,10 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
         $(this._textBoxDiv).css("top", p2.y + "px");
         $(this._textBoxDiv).css("left", p2.x + "px");
+        if (this._created) {
+            $(this._textBoxDiv).css("display","flex");
+            this._created = false;           
+        }
     }
 
     hit(point) {
@@ -427,13 +427,21 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._circleGeometryShape.setRadius(this._circleRadius);
       
         this._setupTextDiv();
+        
+        if (this._extraDivText) {
+            $(this._textBoxDiv).append(this._extraDivText);        
+            this._extraTextDiv = $( this._textBoxDiv).children()[1];
+        }
+
+        this._setupSVGDiv();
+        this.select();
     }
 
     _setupTextDiv() {
         let html = "";
-        html += '<div id="' + this._uniqueid + '" style="z-index:1;max-width:' + this._maxWidth + 'px;display:flex;outline-style:solid;outline-width:2px;position: absolute;';
+        html += '<div id="' + this._uniqueid + '" style="z-index:1;max-width:' + this._maxWidth + 'px;display:none;outline-style:solid;outline-width:2px;position: absolute;';
         html += 'top:0px; left: 0px;width:100px;outline-color: rgb(76, 135, 190);background-color: rgb(' + this._backgroundColor.r + ',' + this._backgroundColor.g + ',' + this._backgroundColor.b + ');">';
-        html += '<textarea autofocus style="max-width:' + this._maxWidth + 'px;margin: 1px 0px 3px 3px; resize: none;font-family:' + this._font + ';font-size:' + this._fontSize + ';height:' + (parseInt(this._fontSize)+3) + 'px;position: relative;outline: none;border: none;word-break: break-word;padding: 0 0 0 0;background-color: transparent;width: 100px;flex-grow: 1;overflow: hidden;"></textarea>';
+        html += '<textarea autofocus style="max-width:' + this._maxWidth + 'px;margin: 1px 0px 3px 3px; resize: none;font-family:' + this._font + ';font-size:' + this._fontSize + ';height:' + (parseInt(this._fontSize) + 3) + 'px;position: relative;outline: none;border: none;word-break: break-word;padding: 0 0 0 0;background-color: transparent;width: 100px;flex-grow: 1;overflow: hidden;"></textarea>';
         html += '</div>';
 
         if (!$("#measurecanvas").length) {
@@ -446,12 +454,19 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         $(this._viewer.getViewElement().parentElement).append(html);
 
         this._textBoxDiv = $("#" + this._uniqueid);
-        this._textBoxText = $( this._textBoxDiv).children()[0];
+        this._textBoxText = $(this._textBoxDiv).children()[0];
 
-        if (this._extraDivText) {
-            $(this._textBoxDiv).append(this._extraDivText);        
-            this._extraTextDiv = $( this._textBoxDiv).children()[1];
-        }
+        $(this._textBoxText).on('input', (event) => {
+
+            this._adjustTextBox();
+            if (this._textBoxManager.getMarkupUpdatedCallback()) {
+                this._textBoxManager.getMarkupUpdatedCallback()(this);
+            }
+        });
+    }
+
+    _setupSVGDiv() {
+        let html = "";
 
         if (!this._textBoxManager.getUseMarkupManager()) {
             this._svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -462,18 +477,8 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             $(this._svgElement).css("height", "100%");
         }
 
-
-        $(this._textBoxText).on('input', (event) => {
-            
-          this._adjustTextBox();
-          if (this._textBoxManager.getMarkupUpdatedCallback()) {
-            this._textBoxManager.getMarkupUpdatedCallback()(this);
-        }
-
-        });
-        this.select();
-
     }
+
 
     _adjustTextBox() {
 
