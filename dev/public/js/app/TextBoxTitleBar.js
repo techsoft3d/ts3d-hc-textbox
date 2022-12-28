@@ -44,13 +44,7 @@ class TextBoxTitleBar {
         });
 
 
-        $(deleteButton).hover(
-            function() { $( this).css("background-color", "lightgrey" ); }, function() { $( this).css("background-color", "white" );}
-        );
-        $(pinnedButton).hover(
-            function() { $( this).css("background-color", "lightgrey" ); }, function() { $( this).css("background-color", "white" );}
-        );
-        $(visibilityButton).hover(
+        $([deleteButton, pinnedButton, visibilityButton]).hover(
             function() { $( this).css("background-color", "lightgrey" ); }, function() { $( this).css("background-color", "white" );}
         );
 
