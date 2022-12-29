@@ -26,6 +26,8 @@ Add client-side collaboration library to your project with a script tag or use m
 ```
 
 
+## Documentation
+Live Documentation can be found here: [https://techsoft3d.github.io/ts3d-hc-textbox/](https://techsoft3d.github.io/ts3d-hc-textbox/)
 
 ## Basic Usage
 
@@ -113,5 +115,4 @@ You can also subsclass from TextBoxMarkupItem to completely change the default b
 ----
 
 
-# API 
 
