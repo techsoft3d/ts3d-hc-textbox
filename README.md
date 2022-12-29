@@ -96,7 +96,7 @@ The textbox markup has a lot of different properties that can be set during crea
 During creation of a new markup element you can add an extra "div" element to the markup that will be displayed alongside the standard textbox. This could be a title bar or other UI elements. Its only requirements is that it needs a fixed with and height so that the textbox can take it into account in a hit-test. For an example of how to add a title-bar, please see the code in the dev/public/js/app/TextBoxTitleBar.js of the project.
 
 ## Customizing the TextBox Markup via Subclassing
-You can also subsclass from TextBoxMarkupItem to completely change the default behavior. For an example, see the code in the dev/public/js/app/CustomTextBoxMarkupItem.js of the project, which changes the textbox to be resizable with a default size. To use your new class simply instantiate it in the 'setCreateMarkupItemCallback' of the operator or create the markup manually as explained above.
+You can also subclass from TextBoxMarkupItem to completely change the default behavior. For an example, see the code in the dev/public/js/app/CustomTextBoxMarkupItem.js of the project, which changes the textbox to be resizable with a default size. To use your new class simply instantiate it in the 'setCreateMarkupItemCallback' of the operator or create the markup manually as explained above.
 
 ## Collaboration Support
 Via a plugin to the [Collaboration Library](https://github.com/techsoft3d/ts3d-hc-collabServer), the textbox markup is fully supported in a collaborative environment as demonstrated in the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com). This plugin is included in the collborator library project and can be found in the dev/public/js/collabPlugins folder. Please see the documentation of the collaboration library for more information on how to use the plugin (coming soon).
@@ -104,15 +104,5 @@ Via a plugin to the [Collaboration Library](https://github.com/techsoft3d/ts3d-h
 
 ## Disclaimer
 **This library is not an officially supported part of HOOPS Communicator and provided as-is.**
-
-
-## Acknowledgments
-
-### Demo:
-* [GoldenLayout](https://golden-layout.com/)
-
-
-----
-
 
 
