@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: TextBoxMarkupItem</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: TextBoxMarkupItem</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, secondPoint, secondPointRel, fontStyle, fontSize, backgroundColor, circleColor, circleRadius, maxWidth, pinned, extraDiv, uniqueid, userdata, checkVisibility, showLeaderLine)</span><span class="type-signature"></span></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    
+    <h4 class="name" id="TextBoxMarkupItem"><span class="type-signature"></span>new TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, secondPoint, secondPointRel, fontStyle, fontSize, backgroundColor, circleColor, circleRadius, maxWidth, pinned, extraDiv, uniqueid, userdata, checkVisibility, showLeaderLine)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Creates a new TextBoxManager object</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>textBoxManager</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">TextBoxMsssanager</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The manager that will own this markup item</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>firstPoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Point3</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The position of insertion point on the model</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>secondPoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Point3</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>The position of the textbox in relation to the insertion point</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>secondPointRel</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Point2</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>A normalized 2D point that is used if the position of the textbox is fixed</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fontStyle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    monospace
+                
+                </td>
+            
+
+            <td class="description last"><p>The font used for the textbox text</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>fontSize</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    12px
+                
+                </td>
+            
+
+            <td class="description last"><p>The font size used for the textbox text</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>backgroundColor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Color</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The background color of the textbox</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>circleColor</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Color</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"><p>The color of the circle that is rendered at the insertion point</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>circleRadius</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    4
+                
+                </td>
+            
+
+            <td class="description last"><p>The radius of the circle that is rendered at the insertion point</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxWidth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    300
+                
+                </td>
+            
+
+            <td class="description last"><p>The maximum width of the textbox</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>pinned</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last"><p>If true, the textbox will be fixed in position</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>extraDiv</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>Extra div text to be added to the textbox</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>uniqueid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">guid</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>Id of Markup Element</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>userdata</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    null
+                
+                </td>
+            
+
+            <td class="description last"><p>User data to be stored with the markup element</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>checkVisibility</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last"><p>If true, the textbox will be hidden if the insertion point is not visible</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>showLeaderLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last"><p>If true, the textbox will have a leader line</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TextBoxManager.html">TextBoxManager</a></li><li><a href="TextBoxMarkupItem_TextBoxMarkupItem.html">TextBoxMarkupItem</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.10</a>
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

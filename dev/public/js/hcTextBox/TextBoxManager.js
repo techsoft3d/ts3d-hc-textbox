@@ -2,10 +2,10 @@
 /** This class manages all textbox markup elements.*/
 export class TextBoxManager {
     /**
-         * Creates a new TextBoxManager object
-         * @param  {WebViewer} viewer - Webviewer Object
-         * @param  {bool} useMarkupManager - Use markup manager to manage TextBoxMarkups
-         */
+     * Creates a new TextBoxManager object
+     * @param  {WebViewer} viewer - Webviewer Object
+     * @param  {bool} useMarkupManager - Use markup manager to manage TextBoxMarkups
+     */
     constructor(viewer, useMarkupManager = true) {
         this._viewer = viewer;
         this._markups = [];

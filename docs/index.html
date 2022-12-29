@@ -75,7 +75,7 @@ https://github.com/techsoft3d/ts3d-hc-textbox</p>
 2 -  A new textbox is inserted on every click on the model (default)</p>
 <p>To play well with other operators it makes sense to control the textbox creation by using mode &quot;1&quot;. In this case, after a single text box is created the operator &quot;flips&quot; back to mode 0 until setAllowCreation() is called again.</p>
 <h3>Manual Creation</h3>
-<p>You can also use the operator only for manipulating existing textbox markup and create the textboxes directly. See below for the minimal code required to do that. Of course in this case it is your responsibility to calculate a suitable initial insertion position:</p>
+<p>You can also use the operator only for manipulating existing textbox markup and create the textboxes directly. See below for the minimal code required to do that. Of course in this case it is your responsibility to calculate a suitable initial insertion position.</p>
 <pre class="prettyprint source"><code>let textBoxManager = myTextBoxOperator.getTextBoxManager();
 let markup = new TextBoxMarkupItem(this._textBoxManager, selectionPosition);
 textBoxManager.add(markup);
@@ -121,7 +121,7 @@ textBoxManager.add(markup);
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TextBoxManager.html">TextBoxManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="TextBoxManager.html">TextBoxManager</a></li><li><a href="TextBoxMarkupItem.html">TextBoxMarkupItem</a></li><li><a href="TextBoxOperator.html">TextBoxOperator</a></li></ul>
 </nav>
 
 <br class="clear">

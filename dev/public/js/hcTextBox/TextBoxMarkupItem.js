@@ -1,17 +1,24 @@
-export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
+/** This class represents a single textbox markup element.*/
 
+export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
+    /**
+     * Creates a markup item from a previously serialized JSON object
+     * @param  {TextBoxManager} textBoxManager - The manager that will own this markup item
+     * @param  {json} json - The JSON object to deserialize
+     * @return {TextBoxMarkupItem} Markup Item
+     */
 
     static fromJson(textBoxManager,json) {
         let markup = new TextBoxMarkupItem(textBoxManager, Communicator.Point3.fromJson(json.firstPoint), Communicator.Point3.fromJson(json.secondPoint), Communicator.Point3.fromJson(json.secondPointRel), 
         json.font, json.fontSize, Communicator.Color.fromJson(json.backgroundColor), Communicator.Color.fromJson(json.circleColor), json.circleRadius, 
-        json.maxWidth, json.pinned,json.extraDivText ? json.extraDivText : null, json.uniqueid,json.userdata, json.showLeaderLine);
+        json.maxWidth, json.pinned,json.extraDiv ? json.extraDiv : null, json.uniqueid,json.userdata, json.showLeaderLine);
         markup.setText(decodeURIComponent(json.text));
         markup.setCheckVisibility(json.checkVisibility);
         markup.deselect();
         return markup;
     }
 
-    static svgPointString(a) {
+    static _svgPointString(a) {
         let b = "";
         for (let c = 0; c < a.length; c++) 
             c && (b += " "),
@@ -19,6 +26,26 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         return b;
     }
 
+
+  /**
+     * Creates a new TextBoxManager object
+     * @param  {TextBoxManager} textBoxManager - The manager that will own this markup item
+     * @param  {Point3} firstPoint - The position of insertion point on the model
+     * @param  {Point3} secondPoint - The position of the textbox in relation to the insertion point
+     * @param  {Point2} secondPointRel - A normalized 2D point that is used if the position of the textbox is fixed
+     * @param  {string} fontStyle - The font used for the textbox text
+     * @param  {string} fontSize - The font size used for the textbox text
+     * @param  {Color} backgroundColor - The background color of the textbox
+     * @param  {Color} circleColor - The color of the circle that is rendered at the insertion point
+     * @param  {number} circleRadius - The radius of the circle that is rendered at the insertion point
+     * @param  {number} maxWidth - The maximum width of the textbox
+     * @param  {boolean} pinned - If true, the textbox will be fixed in position
+     * @param  {string} extraDiv - Extra div text to be added to the textbox
+     * @param  {guid} uniqueid - Id of Markup Element
+     * @param  {object} userdata - User data to be stored with the markup element
+     * @param  {boolean} checkVisibility - If true, the textbox will be hidden if the insertion point is not visible
+     * @param  {boolean} showLeaderLine - If true, the textbox will have a leader line
+     */    
     constructor(textBoxManager, firstPoint, secondPoint = null,secondPointRel = null,fontStyle = "monospace", fontSize = "12px", backgroundColor =  new Communicator.Color(238,243,249),
          circleColor = new Communicator.Color(128,128,255), circleRadius = 4.0, maxWidth = 300, pinned = false, extraDiv = null,uniqueid = null, userdata = null, checkVisibility = false, showLeaderLine = true) {
         super();
@@ -38,7 +65,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._circleRadius = circleRadius;
         this._firstPoint = firstPoint.copy();
         this._allowEditing = true;
-        this._extraDivText = extraDiv;
+        this._extraDiv = extraDiv;
         this._userdata = userdata;
 
         this._selected = false;
@@ -66,6 +93,9 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._showLeaderLine = showLeaderLine;
     }
 
+    /**
+     * Shows the markup (if hidden)
+     */    
     show() {
         if (this._hidden) { 
             this._hidden = false;
@@ -74,6 +104,9 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         }
     }
 
+    /**
+     * Hides the markup (if visible)
+     */    
     hide() {
         if (!this._hidden) {
             this._hidden = true;
@@ -82,10 +115,17 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         }
     }
 
-    getHidden() {
+    /**
+     * Retrieves the markup's hidden state
+     * @return {boolean} - True if the markup is hidden, false otherwise
+     */    getHidden() {
         return this._hidden;
     }
 
+    /**
+     * Sets if the markup should be hidden if the insertion point is not visible
+     * @param  {boolean} check - True if the markup should be hidden if the insertion point is not visible
+     */
     setCheckVisibility(check) {
         this._checkVisibility = check;
         this._textBoxManager.updateVisibilityList();
@@ -94,25 +134,51 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         }
     }
 
+    /**
+     * Retrieves the markup's check visibility state     
+     * @return {boolean} - True if the markup will be hidden if the insertion point is not visible, false otherwise
+     */
     getCheckVisibility() {
         return this._checkVisibility;
     }
 
+    /**
+       * Retrieves the markup's user data
+       * @return {json} - The markup's user data
+       */
     getUserData() {
         return this._userdata;
     }
 
+    /**
+    * Retrieves the markup's selected state
+    * @return {boolean} - True if the markup is selected, false otherwise
+    */
     getSelected() {
         return this._selected;
     }
+
+
+    /**
+    * Sets if text editing is allowed
+    * @param  {boolean} allow - True if text editing is allowed, false otherwise
+    */
     setAllowEditing(allow) {
         this._allowEditing = allow;
     }
 
+ /**
+    * Retrieves the markup's allow editing state
+    * @return {boolean} - True if text editing is allowed, false otherwise
+    */
     getAllowEditing() {
         return this._allowEditing;
     }
 
+
+    /**
+    * Deletes the markup
+    */
     destroy() {
         $(this._textBoxDiv).remove();
         if (!this._textBoxManager.getUseMarkupManager()) {
@@ -120,16 +186,21 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         }
     }
 
-
     refreshText() {
         this._adjustTextBox();
         this._textBoxManager.refreshMarkup();
     }
+
+ /**
+    * Sets the markup's text
+    * @param  {text} text - The text to set
+    */
     setText(text) {
         $(this._textBoxText).val(text);
         this._adjustTextBox();
         this._textBoxManager.refreshMarkup();
     }
+
 
     setMarkupId(markupid) {
         this._markupId = markupid;
@@ -139,11 +210,20 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         return this._markupId;
     }
 
+
+ /**
+    * Retrieves the markup's unique id
+    * @return {guid} - The markup's unique id
+    */    
     getUniqueId() {
         return this._uniqueid;
     }
 
 
+ /**
+    * Returns a json representation of the markup
+    * @return {json} - The json representation of the markup
+    */    
     toJson() {
         let json = {
             "uniqueid": this._uniqueid,
@@ -167,10 +247,20 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         return json;
     }
 
+    
+
+ /**
+    * Returns the markups extra div (if any)
+    * @return {object} - The extra div
+    */    
     getExtraDiv() {
         return this._extraTextDiv;
     }
 
+  /**
+     * Sets the markup's pinned state
+     * @param  {boolean} pinned - True if the markup is pinned, false otherwise
+     */    
     setPinned(pinned) {
         if (pinned != this._pinned) {
             if (this._pinned) {
@@ -184,15 +274,31 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         }
     }
 
+
+ /**
+    * Returns the markups pinned state
+    * @return {boolean} - True if the markup is pinned, false otherwise
+    */    
     getPinned() {
         return this._pinned;
     }
 
+
+
+  /**
+     * Sets the markup's background color
+     * @param  {Color} color - The color to set
+     */        
     setBackgroundColor(color) {
         this._backgroundColor = color;
         $(this._textBoxDiv).css("background-color", "rgb(" + color.r + "," + color.g + "," + color.b + ")");
     }
 
+
+  /**
+     * Sets the markup's circle color
+     * @param  {Color} color - The color to set
+     */        
     setCircleColor(color) {
         this._circleColor = color;
         this._textBoxManager.refreshMarkup();
@@ -338,6 +444,12 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         return false;            
     }
 
+
+
+  /**
+     * Sets the position of the textbox in relation to the insertion point
+     * @param  {Point3} point - The position of the textbox
+     */        
     setSecondPoint(point) {
         this._secondPoint = point.copy();
         let dims = this._getDivDimensions();
@@ -350,7 +462,11 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         
     }
 
-    setFirstPoint(point) {
+  /**
+     * Sets the position of insertion point on the model
+     * @param  {Point3} point - The position of the insertion point
+     */        
+  setFirstPoint(point) {
         this._firstPoint = point.copy();
         if (this._textBoxManager.getMarkupUpdatedCallback()) {
             this._textBoxManager.getMarkupUpdatedCallback()(this);
@@ -358,15 +474,26 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._textBoxManager.updateVisibilityList();
     }
 
+  /**
+     * Retrieves the position of the insertion point
+     * @return {Point3} Insertion point
+     */
     getFirstPoint() {
         return this._firstPoint.copy();
     }
 
 
+  /**
+     * Retrieves the position of the text box
+     * @return {Point3} Text Box Position
+     */
     getSecondPoint() {
         return this._secondPoint.copy();
     }
 
+    /**
+        * Selects the markup
+        */
     select() {
         if (this._allowEditing) {
             $(this._textBoxText).attr("disabled", false);
@@ -377,12 +504,16 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._selected = true;
     }
 
+    /**
+        * Deselects the markup
+        */
     deselect() {
         $(this._textBoxText).attr("disabled", true);
         $(this._textBoxDiv).css("pointer-events", "none");
         $(this._textBoxDiv).css("outline-width", "1px");
         this._selected = false;
     }
+
 
     unprojectTextAnchor() {
         let dims = this._getDivDimensions();
@@ -393,9 +524,9 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     }
 
 
-    _addPolylineElement(a) {        
-        
-        let c = TextBoxMarkupItem.svgPointString(a.getPoints());
+    _addPolylineElement(a) {
+
+        let c = TextBoxMarkupItem._svgPointString(a.getPoints());
         let d = document.createElementNS('http://www.w3.org/2000/svg', "polyline");
         d.setAttributeNS(null, "points", c);
         d.setAttributeNS(null, "fill", "none");
@@ -413,7 +544,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         c.setAttributeNS(null, "cy", a.y.toString());
         c.setAttributeNS(null, "r", b.toString());
 
-        c.setAttributeNS(null, "fill", 'rgb(' + this._circleColor.r + ',' +  this._circleColor.g + ',' + this._circleColor.b + ')');
+        c.setAttributeNS(null, "fill", 'rgb(' + this._circleColor.r + ',' + this._circleColor.g + ',' + this._circleColor.b + ')');
         c.setAttributeNS(null, "fill-opacity", "1");
 
         c.setAttributeNS(null, "stroke", 'rgb(0, 0, 0)');
@@ -428,8 +559,8 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
       
         this._setupTextDiv();
         
-        if (this._extraDivText) {
-            $(this._textBoxDiv).append(this._extraDivText);        
+        if (this._extraDiv) {
+            $(this._textBoxDiv).append(this._extraDiv);        
             this._extraTextDiv = $( this._textBoxDiv).children()[1];
         }
 

@@ -1,7 +1,16 @@
 import { TextBoxMarkupItem } from './TextBoxMarkupItem.js';
 import { TextBoxManager } from './TextBoxManager.js';
 
+
+/** This class represents an operator for creating and manipulating textboxmarkup items.*/
+
 export class TextBoxOperator {
+
+ /**
+     * Creates a new TextBoxOperator object
+     * @param  {WebViewer} viewer - Webviewer Object
+     * @param  {TextBoxManager} textBoxManager -If null, the operator will create a new TextBoxManager object
+     */    
     constructor(viewer, textBoxManager = null) {
         
         this._viewer = viewer;
@@ -23,20 +32,40 @@ export class TextBoxOperator {
         // };
     }
 
-    setAllowCreation(allowCreation) {
-        this._allowCreation = allowCreation;
+
+  /**
+     * Sets one of the three markup creation modes.  
+     * 0 -  No text box creation is allowed.  
+     * 1 -  The textbox is inserted on the next click, after that creation is disabled  
+     * 2 -  A new textbox is inserted on every click on the model (default)  
+     * @param  {number} creationMode - Creation Mode
+     */
+    setAllowCreation(creationMode) {
+        this._allowCreation = creationMode;
     }
 
+
+  /**
+     * Retrieves the TextBoxManager object    
+     * @return {TextBoxManager} - TextBoxManager object
+     */    
     getTextBoxManager() {
         return this._textBoxManager;
     }
 
-
+  /**
+     * Sets callback for markup creation
+     * @param  {callback} callback -Callback to use for markup creation
+     */
     setCreateMarkupItemCallback(callback) {
         this._createMarkupItemCallback = callback;
     }
 
-    setMouseActivationCallback(callback) {
+  /**
+     * Sets callback for mouse button/keyboard combo for markup creation
+     * @param  {callback} callback -Callback
+     */
+  setMouseActivationCallback(callback) {
         this._mouseActivationCallback = callback;
     }
 

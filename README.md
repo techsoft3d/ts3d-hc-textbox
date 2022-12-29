@@ -59,7 +59,7 @@ The textbox operator supports three markup creation modes which can be set via t
 To play well with other operators it makes sense to control the textbox creation by using mode "1". In this case, after a single text box is created the operator "flips" back to mode 0 until setAllowCreation() is called again. 
 
 ### Manual Creation
-You can also use the operator only for manipulating existing textbox markup and create the textboxes directly. See below for the minimal code required to do that. Of course in this case it is your responsibility to calculate a suitable initial insertion position:
+You can also use the operator only for manipulating existing textbox markup and create the textboxes directly. See below for the minimal code required to do that. Of course in this case it is your responsibility to calculate a suitable initial insertion position. 
 
 ```
 let textBoxManager = myTextBoxOperator.getTextBoxManager();
