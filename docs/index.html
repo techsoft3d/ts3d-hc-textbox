@@ -46,6 +46,7 @@
         <article><h1>TextBox Markup</h1>
 <h2>Overview</h2>
 <p>This set of classes implements a new, flexible markup type for adding text notes to a model. The base functionality adds a textbox that automatically resizes with the text entered, and a callout line pointing to the original insertion point. The text box either rotates with the model or stays fixed. Additionally, the markup can be set to automatically hide when the insertion point is invisible. It is easy to extend the functionality via subclassing and callbacks.</p>
+<p>For questions/feedback please send an email to guido@techsoft3d.com or post in our <a href="https://forum.techsoft3d.com/">forum</a>. For a 60 day trial of the HOOPS Web Platform go to <a href="https://www.techsoft3d.com/products/hoops/web-platform">Web Platform</a>.</p>
 <h2>GitHub Project</h2>
 <p>The public github project can be found here:<br>
 https://github.com/techsoft3d/ts3d-hc-textbox</p>
@@ -67,7 +68,7 @@ https://github.com/techsoft3d/ts3d-hc-textbox</p>
   hwv.operatorManager.push(opHandle);
 </code></pre>
 <h2>Demo</h2>
-<p>For a live demo of the this library please check out the <a href="https://3dsandbox.techsoft3d.com">HOOPS Communicator 3D Sandbox</a> which includes the new textbox functionality as a new markup type when collaboration is active by adding an additional button to the toolbar. Each note created is fully synced with all clients. There is also a demo available as part of this project you can run directly from the dev/public folder of the project (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). In the &quot;...&quot; menu it shows three different ways to setup the textbox markup. You can then add a textbox via &quot;Create Text Box&quot; and left-clicking once on the model.</p>
+<p>For a live demo of the this library please check out the <a href="https://3dsandbox.techsoft3d.com">HOOPS Communicator 3D Sandbox</a> which includes the new textbox functionality as a new markup type when collaboration is active. Each note created is fully synced with all clients. There is also a demo available as part of this project you can run directly from the dev/public folder of the project (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. In the &quot;...&quot; menu it shows two additional ways to setup the textbox markup.</p>
 <p>Running and looking through the code of this demo will help you understand some of the concepts mentioned below.</p>
 <h2>Customizing TextBox Creation</h2>
 <h3>Creation Modes</h3>
@@ -106,6 +107,8 @@ textBoxManager.add(markup);
 <p>During creation of a new markup element you can add an extra &quot;div&quot; element to the markup that will be displayed alongside the standard textbox. This could be a title bar or other UI elements. Its only requirements is that it needs a fixed with and height so that the textbox can take it into account in a hit-test. For an example of how to add a title-bar, please see the code in the dev/public/js/app/TextBoxTitleBar.js of the project.</p>
 <h2>Customizing the TextBox Markup via subclassing</h2>
 <p>You can also subsclass from TextBoxMarkupItem to completely change the default behavior. For an example, see the code in the dev/public/js/app/CustomTextBoxMarkupItem.js of the project, which changes the textbox to be resizable with a default size. To use this class simply instantiate your subclassed code in the 'setCreateMarkupItemCallback' of the operator or create the markup manually as shown above.</p>
+<h2>Disclaimer</h2>
+<p><strong>This library is not an officially supported part of HOOPS Communicator and provided as-is.</strong></p>
 <h2>Acknowledgments</h2>
 <h3>Demo:</h3>
 <ul>

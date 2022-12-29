@@ -4,6 +4,7 @@
 ## Overview
 This set of classes implements a new, flexible markup type for adding text notes to a model. The base functionality adds a textbox that automatically resizes with the text entered, and a callout line pointing to the original insertion point. The text box either rotates with the model or stays fixed. Additionally, the markup can be set to automatically hide when the insertion point is invisible. It is easy to extend the functionality via subclassing and callbacks.
 
+For questions/feedback please send an email to guido@techsoft3d.com or post in our [forum](https://forum.techsoft3d.com/). For a 60 day trial of the HOOPS Web Platform go to [Web Platform](https://www.techsoft3d.com/products/hoops/web-platform).
 
 
 ## GitHub Project
@@ -14,16 +15,13 @@ https://github.com/techsoft3d/ts3d-hc-textbox
 
 ## Install
 
-### Via GitHub
-
-* Clone above GitHub project and run `npm install` in the root folder. This will install all dependencies.
-* Client-side libraries can be found in the ./dist folder
-
-  
-Add client-side collaboration library to your project with a script tag or use module version of library:
+* Clone above GitHub project.
+* Libraries can be found in the ./dist folder
+* Add library to your application with a script tag or use module version of library:
 ```
 <script src="./js/hcTextBox.min.js"></script>
 ```
+If you are planning to fork the project and make changes to the core library make sure to run `npm install` in the root folder to install required dependencies.
 
 
 ## Documentation
@@ -44,7 +42,7 @@ Below is the minimum code required to activate the new markup type. This code cr
 
 ## Demo
 
-For a live demo of the this library please check out the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com) which includes the new textbox functionality as a new markup type when collaboration is active by adding an additional button to the toolbar. Each note created is fully synced with all clients. There is also a demo available as part of this project you can run directly from the dev/public folder of the project (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). In the "..." menu it shows three different ways to setup the textbox markup. You can then add a textbox via "Create Text Box" and left-clicking once on the model.
+For a live demo of the this library please check out the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com) which includes the new textbox functionality as a new markup type when collaboration is active. Each note created is fully synced with all clients. There is also a demo available as part of this project you can run directly from the dev/public folder of the project (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. The "..." menu demonstrates two additional ways to setup the textbox markup. 
 
 Running and looking through the code of this demo will help you understand some of the concepts mentioned below.
 
@@ -100,10 +98,15 @@ The textbox markup has a lot of different properties that can be set during crea
 ## Adding a Title Bar or other content to the Text Box.
 During creation of a new markup element you can add an extra "div" element to the markup that will be displayed alongside the standard textbox. This could be a title bar or other UI elements. Its only requirements is that it needs a fixed with and height so that the textbox can take it into account in a hit-test. For an example of how to add a title-bar, please see the code in the dev/public/js/app/TextBoxTitleBar.js of the project.
 
-## Customizing the TextBox Markup via subclassing
-You can also subsclass from TextBoxMarkupItem to completely change the default behavior. For an example, see the code in the dev/public/js/app/CustomTextBoxMarkupItem.js of the project, which changes the textbox to be resizable with a default size. To use this class simply instantiate your subclassed code in the 'setCreateMarkupItemCallback' of the operator or create the markup manually as shown above.
+## Customizing the TextBox Markup via Subclassing
+You can also subsclass from TextBoxMarkupItem to completely change the default behavior. For an example, see the code in the dev/public/js/app/CustomTextBoxMarkupItem.js of the project, which changes the textbox to be resizable with a default size. To use your new class simply instantiate it in the 'setCreateMarkupItemCallback' of the operator or create the markup manually as explained above.
+
+## Collaboration Support
+Via a plugin to the [Collaboration Library](https://github.com/techsoft3d/ts3d-hc-collabServer), the textbox markup is fully supported in a collaborative environment as demonstrated in the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com). This plugin is included in the collborator library project and can be found in the dev/public/js/collabPlugins folder. Please see the documentation of the collaboration library for more information on how to use the plugin (coming soon).
 
 
+## Disclaimer
+**This library is not an officially supported part of HOOPS Communicator and provided as-is.**
 
 
 ## Acknowledgments
