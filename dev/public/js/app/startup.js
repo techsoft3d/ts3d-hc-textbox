@@ -2,8 +2,9 @@ var myLayout;
 var textBoxOperator;
 async function msready() {
 
-
-
+    textBoxOperator = new hcTextBox.TextBoxOperator(hwv);
+    const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
+    hwv.operatorManager.push(opHandle);
 }
 
 function startup()
@@ -32,20 +33,6 @@ function createUILayout() {
                             width: 80,
                             componentState: { label: 'A' }
                         }],
-                    },
-                    {
-                        type: 'column',
-                        width: 20,
-                        height: 35,
-                        content: [
-                            {
-                                type: 'component',
-                                componentName: 'Settings',
-                                isClosable: true,
-                                height: 15,
-                                componentState: { label: 'C' }
-                            }                                                   
-                        ]
                     },                  
                 ],
             }]
@@ -58,9 +45,6 @@ function createUILayout() {
         $(container.getElement()).append($("#content"));
     });
 
-    myLayout.registerComponent('Settings', function (container, componentState) {
-        $(container.getElement()).append($("#settingsdiv"));
-    });
 
    
 
@@ -72,25 +56,11 @@ function createUILayout() {
     });
     myLayout.init();
 
-    var viewermenu = [
-        {
-            name: 'Setup Basic Text Box',
-            fun: function () {
-
-                textBoxOperator = new hcTextBox.TextBoxOperator(hwv);
-                const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
-                hwv.operatorManager.push(opHandle);
-
-            }
-        },
+    var viewermenu = [        
         {
             name: 'Setup Text Box with Title Bar',
             fun: function () {
                           
-                textBoxOperator = new hcTextBox.TextBoxOperator(hwv);
-//                textBoxOperator.setAllowCreation(1);
-                const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
-                hwv.operatorManager.push(opHandle);
                 new TextBoxTitleBar(textBoxOperator.getTextBoxManager(), textBoxOperator);
 
             }
@@ -99,22 +69,11 @@ function createUILayout() {
             name: 'Setup Custom Text Box',
             fun: function () {
                           
-                textBoxOperator = new hcTextBox.TextBoxOperator(hwv);                
-//                textBoxOperator.setAllowCreation(1);
-                const opHandle = hwv.operatorManager.registerCustomOperator(textBoxOperator);
-                hwv.operatorManager.push(opHandle);
                 textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallback);
 
 
             }
-        },             
-        {
-            name: 'Create Text Box',
-            fun: function () {
-            
-                textBoxOperator.setAllowCreation(1);
-            }
-        },                                                   
+        },                                              
         
     ];
 

@@ -43,7 +43,6 @@ class TextBoxTitleBar {
             _this.updateVisiblityTest(markup);
         });
 
-
         $([deleteButton, pinnedButton, visibilityButton]).hover(
             function() { $( this).css("background-color", "lightgrey" ); }, function() { $( this).css("background-color", "white" );}
         );

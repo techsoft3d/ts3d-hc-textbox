@@ -1,0 +1,20 @@
+{
+    "sort": false,
+    "source": {
+        "include": [ "dev/public/js/hcTextBox","README.md" ],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+        "destination": "./docs"
+    },
+    "templates": {
+        "default": {
+            "outputSourceFiles" : false,
+            "includeDate": false
+        }
+      },
+    "plugins": [
+        "plugins/markdown"
+    ]
+}
