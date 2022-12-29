@@ -51,14 +51,13 @@
 <p>The public github project can be found here:<br>
 https://github.com/techsoft3d/ts3d-hc-textbox</p>
 <h2>Install</h2>
-<h3>Via GitHub</h3>
 <ul>
-<li>Clone above GitHub project and run <code>npm install</code> in the root folder. This will install all dependencies.</li>
-<li>Client-side libraries can be found in the ./dist folder</li>
+<li>Clone above GitHub project (libraries can be found in the ./dist folder)</li>
+<li>Add library to your application with a script tag or use module version</li>
 </ul>
-<p>Add client-side collaboration library to your project with a script tag or use module version of library:</p>
 <pre class="prettyprint source"><code>&lt;script src=&quot;./js/hcTextBox.min.js&quot;>&lt;/script>
 </code></pre>
+<p>If you are planning to fork the project and make changes to the core library make sure to run <code>npm install</code> in the root folder to install required dependencies.</p>
 <h2>Documentation</h2>
 <p>Live Documentation can be found here: <a href="https://techsoft3d.github.io/ts3d-hc-textbox/">https://techsoft3d.github.io/ts3d-hc-textbox/</a></p>
 <h2>Basic Usage</h2>
@@ -68,13 +67,13 @@ https://github.com/techsoft3d/ts3d-hc-textbox</p>
   hwv.operatorManager.push(opHandle);
 </code></pre>
 <h2>Demo</h2>
-<p>For a live demo of the this library please check out the <a href="https://3dsandbox.techsoft3d.com">HOOPS Communicator 3D Sandbox</a> which includes the new textbox functionality as a new markup type when collaboration is active. Each note created is fully synced with all clients. There is also a demo available as part of this project you can run directly from the dev/public folder of the project (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. In the &quot;...&quot; menu it shows two additional ways to setup the textbox markup.</p>
-<p>Running and looking through the code of this demo will help you understand some of the concepts mentioned below.</p>
+<p>For a live demo of the this library please check out the <a href="https://3dsandbox.techsoft3d.com">HOOPS Communicator 3D Sandbox</a> which includes the new textbox functionality as a new markup type when collaboration is active. Each note created is fully synced with all clients. There is also a demo available as part of this project you can run directly from the dev/public folder of the project (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. The &quot;...&quot; menu demonstrates two additional ways to customize the textbox markup.</p>
+<p>Looking through the code of this demo should help you understand some of the concepts mentioned below.</p>
 <h2>Customizing TextBox Creation</h2>
 <h3>Creation Modes</h3>
 <p>The textbox operator supports three markup creation modes which can be set via the <code>setAllowCreation</code> function.</p>
-<p>0 -  No text box creation is allowed.
-1 -  The textbox is inserted on the next click, after that creation is disabled
+<p>0 -  No text box creation is allowed.<br>
+1 -  The textbox is inserted on the next click, after that creation is disabled<br>
 2 -  A new textbox is inserted on every click on the model (default)</p>
 <p>To play well with other operators it makes sense to control the textbox creation by using mode &quot;1&quot;. In this case, after a single text box is created the operator &quot;flips&quot; back to mode 0 until setAllowCreation() is called again.</p>
 <h3>Manual Creation</h3>
@@ -84,7 +83,7 @@ let markup = new TextBoxMarkupItem(this._textBoxManager, selectionPosition);
 textBoxManager.add(markup);
 </code></pre>
 <h3>Customizing Mouse Button Behavior</h3>
-<p>You can customize what mouse/keyboard button combination constitute a &quot;click&quot; on the model. By default, this is left mouse button. You can change this by supplying a callback to the <code>setMouseActivationCallback</code> function. See below for code that modifies the default behavior to only allow textbox creation when the left mouse button is pressed while holding down the shift key:</p>
+<p>You can customize which mouse/keyboard button combination constitute a &quot;click&quot; on the model. By default, this is left mouse button. You can change this by supplying a callback to the <code>setMouseActivationCallback</code> function. See below for code that modifies the default behavior to only allow textbox creation when the left mouse button is pressed while holding down the shift key:</p>
 <pre class="prettyprint source"><code>myTextBoxOperator.setMouseActivationCallback(function(event) {
              return (event.getButton() == Communicator.Button.Left && event.shiftDown());
       }
@@ -105,8 +104,10 @@ textBoxManager.add(markup);
 </code></pre>
 <h2>Adding a Title Bar or other content to the Text Box.</h2>
 <p>During creation of a new markup element you can add an extra &quot;div&quot; element to the markup that will be displayed alongside the standard textbox. This could be a title bar or other UI elements. Its only requirements is that it needs a fixed with and height so that the textbox can take it into account in a hit-test. For an example of how to add a title-bar, please see the code in the dev/public/js/app/TextBoxTitleBar.js of the project.</p>
-<h2>Customizing the TextBox Markup via subclassing</h2>
-<p>You can also subsclass from TextBoxMarkupItem to completely change the default behavior. For an example, see the code in the dev/public/js/app/CustomTextBoxMarkupItem.js of the project, which changes the textbox to be resizable with a default size. To use this class simply instantiate your subclassed code in the 'setCreateMarkupItemCallback' of the operator or create the markup manually as shown above.</p>
+<h2>Customizing the TextBox Markup via Subclassing</h2>
+<p>You can also subsclass from TextBoxMarkupItem to completely change the default behavior. For an example, see the code in the dev/public/js/app/CustomTextBoxMarkupItem.js of the project, which changes the textbox to be resizable with a default size. To use your new class simply instantiate it in the 'setCreateMarkupItemCallback' of the operator or create the markup manually as explained above.</p>
+<h2>Collaboration Support</h2>
+<p>Via a plugin to the <a href="https://github.com/techsoft3d/ts3d-hc-collabServer">Collaboration Library</a>, the textbox markup is fully supported in a collaborative environment as demonstrated in the <a href="https://3dsandbox.techsoft3d.com">HOOPS Communicator 3D Sandbox</a>. This plugin is included in the collborator library project and can be found in the dev/public/js/collabPlugins folder. Please see the documentation of the collaboration library for more information on how to use the plugin (coming soon).</p>
 <h2>Disclaimer</h2>
 <p><strong>This library is not an officially supported part of HOOPS Communicator and provided as-is.</strong></p>
 <h2>Acknowledgments</h2>

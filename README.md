@@ -15,9 +15,8 @@ https://github.com/techsoft3d/ts3d-hc-textbox
 
 ## Install
 
-* Clone above GitHub project.
-* Libraries can be found in the ./dist folder
-* Add library to your application with a script tag or use module version of library:
+* Clone above GitHub project (libraries can be found in the ./dist folder)
+* Add library to your application with a script tag or use module version
 ```
 <script src="./js/hcTextBox.min.js"></script>
 ```
@@ -29,7 +28,6 @@ Live Documentation can be found here: [https://techsoft3d.github.io/ts3d-hc-text
 
 ## Basic Usage
 
-
 Below is the minimum code required to activate the new markup type. This code creates and registers an instance of the new TextBox operator that manages the creation and editing of textboxes. By default, this operator creates a new textbox when left clicking on the model and allows the users to select and drag existing textboxes across the screen.
 
 
@@ -39,12 +37,11 @@ Below is the minimum code required to activate the new markup type. This code cr
   hwv.operatorManager.push(opHandle);
 ```
 
-
 ## Demo
 
-For a live demo of the this library please check out the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com) which includes the new textbox functionality as a new markup type when collaboration is active. Each note created is fully synced with all clients. There is also a demo available as part of this project you can run directly from the dev/public folder of the project (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. The "..." menu demonstrates two additional ways to setup the textbox markup. 
+For a live demo of the this library please check out the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com) which includes the new textbox functionality as a new markup type when collaboration is active. Each note created is fully synced with all clients. There is also a demo available as part of this project you can run directly from the dev/public folder of the project (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. The "..." menu demonstrates two additional ways to customize the textbox markup. 
 
-Running and looking through the code of this demo will help you understand some of the concepts mentioned below.
+Looking through the code of this demo should help you understand some of the concepts mentioned below.
 
 
 ## Customizing TextBox Creation
@@ -52,9 +49,9 @@ Running and looking through the code of this demo will help you understand some 
 ### Creation Modes
 The textbox operator supports three markup creation modes which can be set via the `setAllowCreation` function.
 
-0 -  No text box creation is allowed.
-1 -  The textbox is inserted on the next click, after that creation is disabled
-2 -  A new textbox is inserted on every click on the model (default)
+0 -  No text box creation is allowed.  
+1 -  The textbox is inserted on the next click, after that creation is disabled  
+2 -  A new textbox is inserted on every click on the model (default)  
 
 To play well with other operators it makes sense to control the textbox creation by using mode "1". In this case, after a single text box is created the operator "flips" back to mode 0 until setAllowCreation() is called again. 
 
@@ -69,7 +66,7 @@ textBoxManager.add(markup);
 
 ### Customizing Mouse Button Behavior
 
-You can customize what mouse/keyboard button combination constitute a "click" on the model. By default, this is left mouse button. You can change this by supplying a callback to the `setMouseActivationCallback` function. See below for code that modifies the default behavior to only allow textbox creation when the left mouse button is pressed while holding down the shift key:
+You can customize which mouse/keyboard button combination constitute a "click" on the model. By default, this is left mouse button. You can change this by supplying a callback to the `setMouseActivationCallback` function. See below for code that modifies the default behavior to only allow textbox creation when the left mouse button is pressed while holding down the shift key:
 
 ```
 myTextBoxOperator.setMouseActivationCallback(function(event) {
