@@ -390,7 +390,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         $(this._textBoxDiv).css("top", p2.y + "px");
         $(this._textBoxDiv).css("left", p2.x + "px");
         if (this._created) {
-            $(this._textBoxDiv).css("display","flex");
+            $(this._textBoxDiv).css("opacity","");
             this._created = false;           
         }
     }
@@ -570,7 +570,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
     _setupTextDiv() {
         let html = "";
-        html += '<div id="' + this._uniqueid + '" style="z-index:1;max-width:' + this._maxWidth + 'px;display:none;outline-style:solid;outline-width:2px;position: absolute;';
+        html += '<div id="' + this._uniqueid + '" style="z-index:1;max-width:' + this._maxWidth + 'px;opacity:1.0;display:flex;outline-style:solid;outline-width:2px;position: absolute;';
         html += 'top:0px; left: 0px;width:100px;outline-color: rgb(76, 135, 190);background-color: rgb(' + this._backgroundColor.r + ',' + this._backgroundColor.g + ',' + this._backgroundColor.b + ');">';
         html += '<textarea autofocus style="max-width:' + this._maxWidth + 'px;margin: 1px 0px 3px 3px; resize: none;font-family:' + this._font + ';font-size:' + this._fontSize + ';height:' + (parseInt(this._fontSize) + 3) + 'px;position: relative;outline: none;border: none;word-break: break-word;padding: 0 0 0 0;background-color: transparent;width: 100px;flex-grow: 1;overflow: hidden;"></textarea>';
         html += '</div>';
