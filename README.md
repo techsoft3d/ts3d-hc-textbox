@@ -91,7 +91,6 @@ The textbox markup has a lot of different properties that can be set during crea
 
 ```
 
-
 ## Adding a Title Bar or other content to the Text Box.
 During creation of a new markup element you can add an extra "div" element to the markup that will be displayed alongside the standard textbox under the main textbox div element. This could be a title bar or other UI elements. Its only requirements is that it needs a fixed with and height so that the textbox can take it into account in a hit-test. For an example of how to add a title-bar, please see the code in the dev/public/js/app/TextBoxTitleBar.js of the project.
 
@@ -100,12 +99,6 @@ You can also subclass from TextBoxMarkupItem to completely change its default be
 
 ## Markup Manager Integration
 By default, the MarkupManager in HOOPS Communicator will manage the textbox markup items, which means it will trigger a redraw as necessary and render the SVG into its internal drawing layer. It will also automatically serialize the textbox markup alongside its internal markup types. However it is possible to bypass the markup manager by passing false in the second parameter of the TextBox manager constructor. In this case the markup manager is not used and the TextBoxMarkup is directly managed by the TextBoxManager. This can be useful if you want to separate the textbox markup more cleanly from the other internal markup types in HOOPS Communicator. For example, this mode is used in the Collaboration Library integration.
-
-```
-  let markupManager = new hcTextBox.TextBoxMarkupManager(hwv);
-  myTextBoxOperator.setMarkupManager(markupManager);
-```
-
 
 ## Collaboration Support
 Via a plugin to the [Collaboration Library](https://github.com/techsoft3d/ts3d-hc-collabServer) for HOOPS Communicator, the textbox markup is fully supported in a collaborative environment as demonstrated in the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com). This plugin is included in the [Collaboration Library](https://github.com/techsoft3d/ts3d-hc-collabServer) project and can be found in the dev/public/js/collabPlugins folder. Please see the documentation of the collaboration library for more information on how to use the plugin (coming soon).
