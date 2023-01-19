@@ -1,5 +1,7 @@
 # TextBox Markup
 
+## Version Update (0.2.1) 
+*  Quill Editor Support added to demo
 
 ## Overview
 This set of classes implements a new, flexible markup type for adding text notes to a model. The base functionality adds a textbox that automatically resizes with the text entered, and a callout line pointing to the original insertion point. The text box either rotates with the model or stays fixed. Additionally, the markup can be set to automatically hide when the insertion point is invisible. It is easy to extend the functionality via subclassing and callbacks.
@@ -39,7 +41,7 @@ Below is the minimum code required to activate the new markup type. This code cr
 
 ## Demo
 
-For a live demo of the this library please check out the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com) which includes the textbox functionality as a new markup type in collaboration mode. Each note created is fully synced with all connected clients. There is also a demo available as part of this project you can run directly from the dev/public folder (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. The "..." menu demonstrates two additional ways to customize the textbox markup. 
+For a live demo of the this library please check out the [HOOPS Communicator 3D Sandbox](https://3dsandbox.techsoft3d.com) which includes the textbox functionality as a new markup type in collaboration mode. Each note created is fully synced with all connected clients. There is also a demo available as part of this project you can run directly from the dev/public folder (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. The "..." menu demonstrates three additional ways to customize the textbox markup, including an implementation that uses the popular open source rich text editor [Quill](https://quilljs.com/).
 
 Looking through the code of this demo should help you understand some of the concepts mentioned below.
 

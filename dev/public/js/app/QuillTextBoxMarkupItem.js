@@ -24,7 +24,6 @@ export class QuillTextBoxMarkupItem extends TextBoxMarkupItem {
         html += '<div style="position:absolute;display:block;width:100%;height:42px;top:0px;background:white;z-index:-1"><div>'; 
         html += '</div>';
 
-
         let _this = this;
         $(this._viewer.getViewElement().parentElement).append(html);
 
@@ -32,11 +31,7 @@ export class QuillTextBoxMarkupItem extends TextBoxMarkupItem {
             theme: 'snow'
           
           });
-
-
-
-          
-
+    
         this._textBoxDiv = $("#" + this._uniqueid);
         this._textBoxText = $(this._textBoxDiv).children()[0];
 
@@ -51,12 +46,8 @@ export class QuillTextBoxMarkupItem extends TextBoxMarkupItem {
        return;
     }
 
-
-
     _getDivDimensions() {
         
         return ({width:$(this._viewer.getViewElement()).outerWidth(),height:$(this._viewer.getViewElement()).outerHeight()});
     }
-
-  
 }
