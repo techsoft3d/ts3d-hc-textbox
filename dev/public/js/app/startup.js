@@ -32,7 +32,16 @@ function createUILayout() {
 
 
             }
-        },                                              
+        },
+        {
+            name: 'Setup Quill Text Box',
+            fun: function () {
+                          
+                textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallbackQuill);
+
+
+            }
+        },                                                          
         
     ];
 
@@ -47,6 +56,14 @@ function createUILayout() {
 function createMarkupItemCallback(manager, pos) {
     let markup = new CustomTextBoxMarkupItem(manager, pos, undefined, undefined, undefined, undefined, undefined,
         undefined, undefined, undefined, true, undefined, undefined, null, false);
+    return markup;
+
+}
+
+
+function createMarkupItemCallbackQuill(manager, pos) {
+    let markup = new QuillTextBoxMarkupItem(manager, pos, undefined, undefined, undefined, undefined, undefined,
+        undefined, undefined, undefined, false, undefined, undefined, null, false);
     return markup;
 
 }
