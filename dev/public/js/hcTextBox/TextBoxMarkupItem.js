@@ -94,11 +94,16 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._hidden = false;
         this._showLeaderLine = showLeaderLine;
         this._hasPin = true;      
-        this._allowFirstPointMove = false;
+        this._allowFirstPointMove = true;
+        this._allowSecondPointMove = true;
     }
 
     getAllowFirstPointMove() {
         return this._allowFirstPointMove;
+    }
+
+    getAllowSecondPointMove() {
+        return this._allowSecondPointMove;
     }
 
     async setupPin(position, normal) {
@@ -108,6 +113,9 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             this._sphereID = await PinUtility.createPinSphereInstance(this._viewer, matrix);
             let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
             this._firstPoint =  pinBounding.center();
+            this._secondPoint =  pinBounding.center();
+            this._allowFirstPointMove = false;
+            this._allowSecondPointMove = false;
         }
     }
 
@@ -343,6 +351,9 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             (async () => {
                 let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
                 this._firstPoint =  pinBounding.center();
+                if (!this._allowSecondPointMove) {
+                    this._secondPoint =  pinBounding.center();
+                }
             })();
         }
         let p1 = Communicator.Point2.fromPoint3(view.projectPoint(this._firstPoint));

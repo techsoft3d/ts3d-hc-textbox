@@ -206,6 +206,9 @@ export class TextBoxOperator {
             return;
         }
 
+        if (!this._activeMarkupItem.getAllowSecondPointMove()) {
+            return;
+        }
         let c = this._viewer.view.getCamera();
         let pos = c.getPosition();
         let tar = c.getTarget();
