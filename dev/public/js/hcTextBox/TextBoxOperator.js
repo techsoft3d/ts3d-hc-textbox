@@ -72,6 +72,7 @@ export class TextBoxOperator {
     onMouseDown(event) {
 
         this._handled = false;
+        this._mouseMoved = false;
         if ((!this._mouseActivationCallback && event.getButton() == Communicator.Button.Left) ||
             (this._mouseActivationCallback && this._mouseActivationCallback(event))) {
             const markup = this._textBoxManager.pickMarkupItem(event.getPosition());
@@ -101,7 +102,7 @@ export class TextBoxOperator {
     }
     onMouseMove(event) {
         this._dClickTime = null;
-
+        this._mouseMoved = true;
         event.setHandled(this._handled);
         if (this._activeMarkupItem !== null && this._handled) {
             this._updateActiveMarkupItem(event.getPosition());
@@ -110,9 +111,16 @@ export class TextBoxOperator {
 
     onMouseUp(event) {
 
-        if (this._dClickTime !== null) {
-                this._activeMarkupItem.select();
+        if (this._dClickTime !== null) {           
+            this._activeMarkupItem.select();
 
+        }
+        else {
+            if (!this._mouseMoved) {
+                if (this._textBoxManager.getAutoHide()) {
+                    this._textBoxManager.hideAll();
+                }
+            }
         }
         this._dClickTime = null;
         event.setHandled(this._handled);
@@ -137,6 +145,11 @@ export class TextBoxOperator {
             return;
         }
 
+        if (this._textBoxManager.isPinGeometry(nodeId)) {
+            this._handled = true;
+            return;
+        }
+        this._mouseMoved = true;
         if (!this._createMarkupItemCallback) {
             this._activeMarkupItem = new TextBoxMarkupItem(this._textBoxManager, selectionPosition);
         }

@@ -109,9 +109,19 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._initialize();
         this._hidden = false;
         this._showLeaderLine = config && config.showLeaderLine ? config.showLeaderLine : true;
-        this._hasPin = false;      
+        this._hasPin = true;      
         this._allowFirstPointMove = true;
         this._allowSecondPointMove = true;
+    }
+
+    isPinGeometry(nodeid) {
+        if (!this._hasPin) {
+            return false;
+        }
+        if (this._stemID == nodeid || this._sphereID == nodeid) {
+            return true;
+        }
+        return false;
     }
 
     getAllowFirstPointMove() {

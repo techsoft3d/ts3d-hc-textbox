@@ -12,6 +12,7 @@ export class TextBoxManager {
         this._markups = [];
         this._useMarkupManager = useMarkupManager;
         this._markupUpdatedCallback = null;
+        this._autoHide = true;
 
         PinUtility.createMeshes(viewer, 2,2);
 
@@ -53,6 +54,15 @@ export class TextBoxManager {
         });
 
     }
+
+    getAutoHide() {
+        return this._autoHide;
+    }
+
+    setAutoHide() {
+        this._autoHide = autoHide;
+    }
+
     /**
        * Sets a callback that gets triggered when a markup is updated
        * @param  {callback} callback - callback function with the markup element as parameter
@@ -210,6 +220,23 @@ export class TextBoxManager {
             this.add(markup);
         }
 
+        this.refreshMarkup();
+    }
+
+    isPinGeometry(nodeid) {
+        for (let i = 0; i < this._markups.length; i++) {
+            if (this._markups[i].isPinGeometry(nodeid)) {
+                return true
+            }
+        }
+        return false;
+    }
+
+    
+    hideAll() {
+        for (let i = 0; i < this._markups.length; i++) {
+            this._markups[i].hide();           
+        }
         this.refreshMarkup();
     }
 }
