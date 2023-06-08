@@ -18,7 +18,7 @@ export class CustomTextBoxMarkupItem extends TextBoxMarkupItem {
 
         html += '<div id="' + this._uniqueid + '" style="z-index:1;display:flex;opacity:1.0;outline-style:solid;outline-width:2px;position: absolute;';  //set opacity to 1.0 initially here to avoid initial flicker on creation
         html += 'top:0px; left: 0px;outline-color: rgb(76, 135, 190);background-color: rgb(' + this._backgroundColor.r + ',' + this._backgroundColor.g + ',' + this._backgroundColor.b + ');">';
-        html += '<textarea autofocus style="margin: 1px 0px 3px 3px; resize: auto;font-family:' + this._font + ';font-size:' + this._fontSize + ';height:' + (parseInt(this._fontSize) + 3) + 'px;position: relative;outline: none;border: none;word-break: break-word;padding: 0 0 0 0;background-color: transparent;width: 300px;height:200px;flex-grow: 1;overflow: hidden;"></textarea>';
+        html += '<textarea autofocus style="margin: 1px 0px 3px 3px; resize: auto;font-family:' + this._font + ';font-size:' + this._fontSize + ';height:' + (parseInt(this._fontSize) + 3) + 'px;position: relative;outline: none;border: none;word-break: break-word;padding: 0 0 0 0;background-color: transparent;width: 300px;height:200px;flex-grow: 1;overflow: auto;"></textarea>';
         html += '</div>';
 
 
