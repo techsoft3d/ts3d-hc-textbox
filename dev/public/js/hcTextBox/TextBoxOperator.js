@@ -132,7 +132,7 @@ export class TextBoxOperator {
             return;
         }
         const nodeId = selectionItem.getNodeId();
-        const selectionPosition = selectionItem.getPosition();
+        let selectionPosition = selectionItem.getPosition();
         const faceEntity = selectionItem.getFaceEntity();
         if (nodeId === null || selectionPosition === null || faceEntity === null) {
             return;
@@ -143,8 +143,10 @@ export class TextBoxOperator {
         }
 
         let matrix = PinUtility.createPinTransformationMatrix(selectionItem.getPosition(),faceEntity.getNormal(),0.03);
-        let stemID = PinUtility.createPinStemInstance(this._viewer, matrix);
-        let sphereID = PinUtility.createPinSphereInstance(this._viewer, matrix);
+        let stemID = await PinUtility.createPinStemInstance(this._viewer, matrix);
+        let sphereID = await PinUtility.createPinSphereInstance(this._viewer, matrix);
+        const box = await this._viewer.model.getNodeRealBounding(sphereID);
+        selectionPosition = box.center();
 
 
         if (!this._createMarkupItemCallback) {
