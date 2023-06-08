@@ -145,7 +145,11 @@ export class TextBoxOperator {
             return;
         }
 
-        if (this._textBoxManager.isPinGeometry(nodeId)) {
+        let pinMarkup = this._textBoxManager.isPinGeometry(nodeId);
+        if (pinMarkup) {
+            pinMarkup.show();
+            this._mouseMoved = true;
+            pinMarkup.refreshText();
             this._handled = true;
             return;
         }

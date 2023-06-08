@@ -226,7 +226,7 @@ export class TextBoxManager {
     isPinGeometry(nodeid) {
         for (let i = 0; i < this._markups.length; i++) {
             if (this._markups[i].isPinGeometry(nodeid)) {
-                return true
+                return this._markups[i];
             }
         }
         return false;

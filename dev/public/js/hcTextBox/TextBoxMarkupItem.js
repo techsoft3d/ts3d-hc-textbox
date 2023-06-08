@@ -152,6 +152,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     show() {
         if (this._hidden) { 
             this._hidden = false;
+            this.draw();
             $(this._textBoxDiv).css("display","flex");
             $(this._svgElement).css("display","block");
         }
@@ -171,7 +172,8 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     /**
      * Retrieves the markup's hidden state
      * @return {boolean} - True if the markup is hidden, false otherwise
-     */    getHidden() {
+     */    
+    getHidden() {
         return this._hidden;
     }
 
