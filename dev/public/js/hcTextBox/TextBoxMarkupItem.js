@@ -1,3 +1,5 @@
+import { PinUtility } from './PinUtility.js';
+
 /** This class represents a single textbox markup element.*/
 
 export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
@@ -91,7 +93,22 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._initialize();
         this._hidden = false;
         this._showLeaderLine = showLeaderLine;
+        this._hasPin = true;
+        if (this._hasPin) {
+            this._createPin
+        }
     }
+
+    async setupPin(position, normal) {
+        if (this._hasPin) {
+            let matrix = PinUtility.createPinTransformationMatrix(position,normal,0.03);
+            let stemID = await PinUtility.createPinStemInstance(this._viewer, matrix);
+            this._sphereID = await PinUtility.createPinSphereInstance(this._viewer, matrix);
+            let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
+            this._firstPoint =  pinBounding.center();
+        }
+    }
+
 
     /**
      * Shows the markup (if hidden)
@@ -314,6 +331,13 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         const renderer = this._viewer.markupManager.getRenderer();
         const view = this._viewer.view;
         this._lineGeometryShape.clearPoints();
+
+        if (this._hasPin) {
+            (async () => {
+                let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
+                this._firstPoint =  pinBounding.center();
+            })();
+        }
         let p1 = Communicator.Point2.fromPoint3(view.projectPoint(this._firstPoint));
         this._lineGeometryShape.pushPoint(p1);
         this._circleGeometryShape.setCenter(p1);

@@ -1,6 +1,5 @@
 import { TextBoxMarkupItem } from './TextBoxMarkupItem.js';
 import { TextBoxManager } from './TextBoxManager.js';
-import { PinUtility } from './PinUtility.js';
 
 
 /** This class represents an operator for creating and manipulating textboxmarkup items.*/
@@ -89,11 +88,7 @@ export class TextBoxOperator {
             }
             else {
                 if (this._allowCreation) {
-                    this._addMarkupItem(event.getPosition());
-
-                 
-
-
+                    this._addMarkupItem(event.getPosition());                 
                     if (this._allowCreation == 1) {
                         this._allowCreation = 0;
                     }
@@ -142,19 +137,15 @@ export class TextBoxOperator {
             return;
         }
 
-        let matrix = PinUtility.createPinTransformationMatrix(selectionItem.getPosition(),faceEntity.getNormal(),0.03);
-        let stemID = await PinUtility.createPinStemInstance(this._viewer, matrix);
-        let sphereID = await PinUtility.createPinSphereInstance(this._viewer, matrix);
-        const box = await this._viewer.model.getNodeRealBounding(sphereID);
-        selectionPosition = box.center();
-
-
         if (!this._createMarkupItemCallback) {
             this._activeMarkupItem = new TextBoxMarkupItem(this._textBoxManager, selectionPosition);
         }
         else {
             this._activeMarkupItem = this._createMarkupItemCallback(this._textBoxManager, selectionPosition);
         }
+
+        this._activeMarkupItem.setupPin(selectionItem.getPosition(),faceEntity.getNormal());
+
         this._textBoxManager.add(this._activeMarkupItem);
 
       
