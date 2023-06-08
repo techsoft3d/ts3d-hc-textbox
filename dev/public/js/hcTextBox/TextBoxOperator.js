@@ -161,6 +161,9 @@ export class TextBoxOperator {
         }
 
         if (!this._activeMarkupItem._textHit) {
+            if (!this._activeMarkupItem.getAllowFirstPointMove()) {
+                return;
+            }
 
             const model = this._viewer.model;
             const config = new Communicator.PickConfig(Communicator.SelectionMask.Face);

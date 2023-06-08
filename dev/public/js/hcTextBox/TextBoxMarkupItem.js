@@ -93,16 +93,18 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._initialize();
         this._hidden = false;
         this._showLeaderLine = showLeaderLine;
-        this._hasPin = true;
-        if (this._hasPin) {
-            this._createPin
-        }
+        this._hasPin = true;      
+        this._allowFirstPointMove = false;
+    }
+
+    getAllowFirstPointMove() {
+        return this._allowFirstPointMove;
     }
 
     async setupPin(position, normal) {
         if (this._hasPin) {
             let matrix = PinUtility.createPinTransformationMatrix(position,normal,0.03);
-            let stemID = await PinUtility.createPinStemInstance(this._viewer, matrix);
+            this._stemID = await PinUtility.createPinStemInstance(this._viewer, matrix);
             this._sphereID = await PinUtility.createPinSphereInstance(this._viewer, matrix);
             let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
             this._firstPoint =  pinBounding.center();
@@ -200,6 +202,11 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         $(this._textBoxDiv).remove();
         if (!this._textBoxManager.getUseMarkupManager()) {
             $(this._svgElement).remove();
+        }
+
+        if (this._hasPin) {
+            this._viewer.model.deleteNode(this._sphereID);
+            this._viewer.model.deleteNode(this._stemID);
         }
     }
 
