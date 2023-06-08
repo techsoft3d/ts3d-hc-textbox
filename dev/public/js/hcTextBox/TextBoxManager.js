@@ -1,3 +1,4 @@
+import { PinUtility } from './PinUtility.js';
 
 /** This class manages all textbox markup elements.*/
 export class TextBoxManager {
@@ -11,6 +12,8 @@ export class TextBoxManager {
         this._markups = [];
         this._useMarkupManager = useMarkupManager;
         this._markupUpdatedCallback = null;
+
+        PinUtility.createMeshes(viewer, 2,2);
 
         let _this = this;
         if (!this._useMarkupManager) {

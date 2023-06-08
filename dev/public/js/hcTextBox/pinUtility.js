@@ -3,12 +3,12 @@ export class PinUtility {
     static stemID = null;
     static sphereID = null;
 
-    static async createMeshes(stemLength, sphereIterations) {
-        PinUtility.stemID = PinUtility.createPinStemMeshData(stemLength);
-        PinUtility.sphereID = PinUtility.createPinSphereMeshData(stemLength, sphereIterations);
+    static async createMeshes(viewer, stemLength, sphereIterations) {
+        PinUtility.stemID = await PinUtility.createPinStemMeshData(viewer, stemLength);
+        PinUtility.sphereID = await PinUtility.createPinSphereMeshData(viewer, stemLength, sphereIterations);
     }
 
-    static createPinTransformationMatrix(selectionPosition, normal) {
+    static createPinTransformationMatrix(selectionPosition, normal, sphereRadius) {
         // rotate
         let i = 0;
         let min = normal.x;
@@ -38,9 +38,9 @@ export class PinUtility {
         matrix = Communicator.Matrix.multiply(
             matrix,
             new Communicator.Matrix().setScaleComponent(
-                this._sphereRadius,
-                this._sphereRadius,
-                this._sphereRadius,
+                sphereRadius,
+                sphereRadius,
+                sphereRadius,
             ),
         );
 
@@ -54,13 +54,11 @@ export class PinUtility {
     }
 
 
-    static async createPinStemMeshData(stemLength) {
+    static async createPinStemMeshData(viewer, stemLength) {
         const meshData = new Communicator.MeshData();
         meshData.addPolyline([0, 0, 0, stemLength, 0, 0]);
-        const meshid = await model.createMesh(meshData);
+        const meshid = await viewer.model.createMesh(meshData);
         return meshid;
-
-        return meshData;
     }
 
     static async createPinStemInstance(viewer, matrix) {
@@ -84,6 +82,7 @@ export class PinUtility {
             Communicator.MeshInstanceCreationFlags.ExcludeBounding |
             Communicator.MeshInstanceCreationFlags.OverrideSceneVisibility |
             Communicator.MeshInstanceCreationFlags.AlwaysDraw;
+        
         meshInstanceData.setCreationFlags(instanceFlags);
 
         return await viewer.model.createMeshInstance(meshInstanceData, undefined, true, true);
@@ -111,14 +110,14 @@ export class PinUtility {
             Communicator.MeshInstanceCreationFlags.OverrideSceneVisibility |
             Communicator.MeshInstanceCreationFlags.AlwaysDraw;
 
-        Communicator.meshInstanceData.setCreationFlags(instanceFlags);
+        meshInstanceData.setCreationFlags(instanceFlags);
 
       
         return await viewer.model.createMeshInstance(meshInstanceData, undefined, true, true);
     }
 
 
-    static async createPinSphereMeshData(stemLength, sphereIterations) {
+    static async createPinSphereMeshData(viewer, stemLength, sphereIterations) {
         const t = (1.0 + Math.sqrt(5.0)) / 2.0;
 
         const ratio = Math.sqrt(10 + 2 * Math.sqrt(5)) / (4 * t);
@@ -225,8 +224,8 @@ export class PinUtility {
         // add mesh
         const meshData = new Communicator.MeshData();
         meshData.addFaces(vertexData, normalData);
-        meshData.setFaceWinding(FaceWinding.CounterClockwise);
-        const meshid = await model.createMesh(meshData);
+        meshData.setFaceWinding(Communicator.FaceWinding.CounterClockwise);
+        const meshid = await viewer.model.createMesh(meshData);
         return meshid;
     }
 }
