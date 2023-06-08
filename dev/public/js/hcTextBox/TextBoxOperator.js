@@ -145,15 +145,14 @@ export class TextBoxOperator {
             return;
         }
 
+        this._mouseMoved = true;
         let pinMarkup = this._textBoxManager.isPinGeometry(nodeId);
         if (pinMarkup) {
             pinMarkup.show();
-            this._mouseMoved = true;
-            pinMarkup.refreshText();
+            this._textBoxManager.refreshMarkup();
             this._handled = true;
             return;
         }
-        this._mouseMoved = true;
         if (!this._createMarkupItemCallback) {
             this._activeMarkupItem = new TextBoxMarkupItem(this._textBoxManager, selectionPosition);
         }

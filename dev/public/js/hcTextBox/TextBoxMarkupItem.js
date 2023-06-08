@@ -151,10 +151,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      */    
     show() {
         if (this._hidden) { 
-            this._hidden = false;
-            this.draw();
-            $(this._textBoxDiv).css("display","flex");
-            $(this._svgElement).css("display","block");
+            this._hidden = false;        
         }
     }
 
@@ -163,9 +160,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      */    
     hide() {
         if (!this._hidden) {
-            this._hidden = true;
-            $(this._textBoxDiv).css("display","none");
-            $(this._svgElement).css("display","none");
+            this._hidden = true;           
         }
     }
 
@@ -367,8 +362,13 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
     draw() {
         if (this._hidden) {
+            $(this._textBoxDiv).css("display","none");
+            $(this._svgElement).css("display","none");
             return;
         }
+
+        $(this._textBoxDiv).css("display","flex");
+        $(this._svgElement).css("display","block");
 
         $(this._svgElement).empty();
         const renderer = this._viewer.markupManager.getRenderer();
