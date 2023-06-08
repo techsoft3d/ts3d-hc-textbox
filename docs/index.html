@@ -44,6 +44,10 @@
 
     <section>
         <article><h1>TextBox Markup</h1>
+<h2>Version Update (0.2.1)</h2>
+<ul>
+<li>Quill Editor Support added to demo</li>
+</ul>
 <h2>Overview</h2>
 <p>This set of classes implements a new, flexible markup type for adding text notes to a model. The base functionality adds a textbox that automatically resizes with the text entered, and a callout line pointing to the original insertion point. The text box either rotates with the model or stays fixed. Additionally, the markup can be set to automatically hide when the insertion point is invisible. It is easy to extend the functionality via subclassing and callbacks.</p>
 <p>For questions/feedback please post in our <a href="https://forum.techsoft3d.com/">forum</a> or send an email to guido@techsoft3d.com. To learn more about the HOOPS Web Platform and for a 60 day trial go to https://www.techsoft3d.com/products/hoops/web-platform.</p>
@@ -67,7 +71,7 @@ https://github.com/techsoft3d/ts3d-hc-textbox</p>
   hwv.operatorManager.push(opHandle);
 </code></pre>
 <h2>Demo</h2>
-<p>For a live demo of the this library please check out the <a href="https://3dsandbox.techsoft3d.com">HOOPS Communicator 3D Sandbox</a> which includes the textbox functionality as a new markup type in collaboration mode. Each note created is fully synced with all connected clients. There is also a demo available as part of this project you can run directly from the dev/public folder (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. The &quot;...&quot; menu demonstrates two additional ways to customize the textbox markup.</p>
+<p>For a live demo of the this library please check out the <a href="https://3dsandbox.techsoft3d.com">HOOPS Communicator 3D Sandbox</a> which includes the textbox functionality as a new markup type in collaboration mode. Each note created is fully synced with all connected clients. There is also a demo available as part of this project you can run directly from the dev/public folder (http://127.0.0.1:5500/dev/public/viewer.html?scs=models/microengine.scs). Initially, the basic textbox markup is active. The &quot;...&quot; menu demonstrates three additional ways to customize the textbox markup, including an implementation that uses the popular open source rich text editor <a href="https://quilljs.com/">Quill</a>.</p>
 <p>Looking through the code of this demo should help you understand some of the concepts mentioned below.</p>
 <h2>Customizing TextBox Creation</h2>
 <h3>Creation Modes</h3>
@@ -108,9 +112,6 @@ textBoxManager.add(markup);
 <p>You can also subclass from TextBoxMarkupItem to completely change its default behavior. For an example, see the code in the dev/public/js/app/CustomTextBoxMarkupItem.js of the project, which changes the textbox to be manually resizable with a fixed startup size. To use your new class simply instantiate it in the 'setCreateMarkupItemCallback' of the operator or create the markup manually as explained above.</p>
 <h2>Markup Manager Integration</h2>
 <p>By default, the MarkupManager in HOOPS Communicator will manage the textbox markup items, which means it will trigger a redraw as necessary and render the SVG into its internal drawing layer. It will also automatically serialize the textbox markup alongside its internal markup types. However it is possible to bypass the markup manager by passing false in the second parameter of the TextBox manager constructor. In this case the markup manager is not used and the TextBoxMarkup is directly managed by the TextBoxManager. This can be useful if you want to separate the textbox markup more cleanly from the other internal markup types in HOOPS Communicator. For example, this mode is used in the Collaboration Library integration.</p>
-<pre class="prettyprint source"><code>  let markupManager = new hcTextBox.TextBoxMarkupManager(hwv);
-  myTextBoxOperator.setMarkupManager(markupManager);
-</code></pre>
 <h2>Collaboration Support</h2>
 <p>Via a plugin to the <a href="https://github.com/techsoft3d/ts3d-hc-collabServer">Collaboration Library</a> for HOOPS Communicator, the textbox markup is fully supported in a collaborative environment as demonstrated in the <a href="https://3dsandbox.techsoft3d.com">HOOPS Communicator 3D Sandbox</a>. This plugin is included in the <a href="https://github.com/techsoft3d/ts3d-hc-collabServer">Collaboration Library</a> project and can be found in the dev/public/js/collabPlugins folder. Please see the documentation of the collaboration library for more information on how to use the plugin (coming soon).</p>
 <h2>Disclaimer</h2>

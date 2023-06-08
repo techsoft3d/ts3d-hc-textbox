@@ -54,16 +54,17 @@ function createUILayout() {
 
 
 function createMarkupItemCallback(manager, pos) {
-    let markup = new CustomTextBoxMarkupItem(manager, pos, undefined, undefined, undefined, undefined, undefined,
-        undefined, undefined, undefined, true, undefined, undefined, null, false);
+    let config = {
+        pinned:true
+    }
+    let markup = new CustomTextBoxMarkupItem(manager, pos,config);
     return markup;
 
 }
 
 
 function createMarkupItemCallbackQuill(manager, pos) {
-    let markup = new QuillTextBoxMarkupItem(manager, pos, undefined, undefined, undefined, undefined, undefined,
-        undefined, undefined, undefined, false, undefined, undefined, null, false);
+    let markup = new QuillTextBoxMarkupItem(manager, pos);
     return markup;
 
 }

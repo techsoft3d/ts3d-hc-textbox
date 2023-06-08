@@ -11,9 +11,23 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      */
 
     static fromJson(textBoxManager,json) {
-        let markup = new TextBoxMarkupItem(textBoxManager, Communicator.Point3.fromJson(json.firstPoint), Communicator.Point3.fromJson(json.secondPoint), Communicator.Point3.fromJson(json.secondPointRel), 
-        json.font, json.fontSize, Communicator.Color.fromJson(json.backgroundColor), Communicator.Color.fromJson(json.circleColor), json.circleRadius, 
-        json.maxWidth, json.pinned,json.extraDiv ? json.extraDiv : null, json.uniqueid,json.userdata, json.showLeaderLine);
+        let config = {          
+            secondPoint : Communicator.Point3.fromJson(json.secondPoint),
+            secondPointRel : Communicator.Point2.fromJson(json.secondPointRel),
+            font : json.font,
+            fontSize : json.fontSize,
+            backgroundColor : Communicator.Color.fromJson(json.backgroundColor),
+            circleColor : Communicator.Color.fromJson(json.circleColor),
+            circleRadius : json.circleRadius,
+            maxWidth : json.maxWidth,
+            pinned : json.pinned,
+            extraDiv : json.extraDiv ? json.extraDiv : null,
+            uniqueid : json.uniqueid,
+            userdata : json.userdata,
+            showLeaderLine: json.showLeaderLine
+        };
+
+        let markup = new TextBoxMarkupItem(textBoxManager, json.firstPoint,config);
         markup.setText(decodeURIComponent(json.text));
         markup.setCheckVisibility(json.checkVisibility);
         markup.deselect();
@@ -33,67 +47,69 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      * Creates a new TextBoxManager object
      * @param  {TextBoxManager} textBoxManager - The manager that will own this markup item
      * @param  {Point3} firstPoint - The position of insertion point on the model
-     * @param  {Point3} secondPoint - The position of the textbox in relation to the insertion point
-     * @param  {Point2} secondPointRel - A normalized 2D point that is used if the position of the textbox is fixed
-     * @param  {string} fontStyle - The font used for the textbox text
-     * @param  {string} fontSize - The font size used for the textbox text
-     * @param  {Color} backgroundColor - The background color of the textbox
-     * @param  {Color} circleColor - The color of the circle that is rendered at the insertion point
-     * @param  {number} circleRadius - The radius of the circle that is rendered at the insertion point
-     * @param  {number} maxWidth - The maximum width of the textbox
-     * @param  {boolean} pinned - If true, the textbox will be fixed in position
-     * @param  {string} extraDiv - Extra div text to be added to the textbox
-     * @param  {guid} uniqueid - Id of Markup Element
-     * @param  {object} userdata - User data to be stored with the markup element
-     * @param  {boolean} checkVisibility - If true, the textbox will be hidden if the insertion point is not visible
-     * @param  {boolean} showLeaderLine - If true, the textbox will have a leader line
+     * @param  {Object} config - Text Box Configuration:
+     *  secondPoint - The position of the textbox in relation to the insertion point  
+     *  secondPointRel - A normalized 2D point that is used if the position of the textbox is fixed  
+     *  fontStyle - The font used for the textbox text  
+     *  fontSize - The font size used for the textbox text  
+     *  backgroundColor - The background color of the textbox  
+     *  circleColor - The color of the circle that is rendered at the insertion point  
+     *  circleRadius - The radius of the circle that is rendered at the insertion point  
+     *  maxWidth - The maximum width of the textbox  
+     *  pinned - If true, the textbox will be fixed in position  
+     *  extraDiv - Extra div text to be added to the textbox  
+     *  uniqueid - Id of Markup Element  
+     *  userdata - User data to be stored with the markup element  
+     *  checkVisibility - If true, the textbox will be hidden if the insertion point is not visible  
+     * showLeaderLine - If true, the textbox will have a leader line  
      */    
-    constructor(textBoxManager, firstPoint, secondPoint = null,secondPointRel = null,fontStyle = "monospace", fontSize = "12px", backgroundColor =  new Communicator.Color(238,243,249),
-         circleColor = new Communicator.Color(128,128,255), circleRadius = 4.0, maxWidth = 300, pinned = false, extraDiv = null,uniqueid = null, userdata = null, checkVisibility = false, showLeaderLine = true) {
+    constructor(textBoxManager,firstPoint,config) {
+
         super();
         this._textBoxManager = textBoxManager;
         this._viewer = textBoxManager._viewer;
-        this._font = fontStyle;
-        this._fontSize = fontSize;
+        this._font = config && config.fontStyle ? config.fontStyle : "monospace";
+        this._fontSize = config && config.fontSize ? config.fontSize : "12px";
         this._created = true;
-        if (uniqueid) {
-            this._uniqueid = uniqueid;
+        if (config && config.uniqueid) {
+            this._uniqueid = config.uniqueid;
         }
         else {
             this._uniqueid = this._generateGUID();
         }
-        this._backgroundColor = backgroundColor;
-        this._circleColor = circleColor;
-        this._circleRadius = circleRadius;
+        this._backgroundColor = config && config.backgroundColor ? config.backgroundColor : new Communicator.Color(238,243,249);
+        this._circleColor = config && config.circleColor ? config.circleColor : new Communicator.Color(128,128,255);
+        this._circleRadius = config && config.circleRadius ? config.circleRadius : 4.0;
         this._firstPoint = firstPoint.copy();
         this._allowEditing = true;
-        this._extraDiv = extraDiv;
-        this._userdata = userdata;
+        this._extraDiv =  config && config.extraDiv ? config.extraDiv : null;
+        this._userdata = config && config.userdata ? config.userdata : null;
 
         this._selected = false;
         
         this._textHit = true;
-        this._maxWidth = maxWidth;
+        this._maxWidth = config && config.maxWidth ? config.maxWidth : 300;
 
-        this._pinned = pinned;
-        this._checkVisibility = checkVisibility;
+        this._pinned = config && config.pinned ? config.pinned : false;
+        this._checkVisibility = config && config.checkVisibility ? config.checkVisibility : false;
         this._lineGeometryShape = new Communicator.Markup.Shape.Polyline();
         this._circleGeometryShape = new Communicator.Markup.Shape.Circle();
 
-        if (secondPoint != null) {
-            this._secondPoint = secondPoint.copy();
+        if (config && config.secondPoint != null) {
+            this._secondPoint = config.secondPoint.copy();
         }
         else {
             this.setSecondPoint(firstPoint.copy());
         }
-        if (secondPointRel != null) {
-            this._secondPointRel = secondPointRel.copy();
+
+        if (config && config.secondPointRel != null) {
+            this._secondPointRel = config.secondPointRel.copy();
         }
 
         this._initialize();
         this._hidden = false;
-        this._showLeaderLine = showLeaderLine;
-        this._hasPin = true;      
+        this._showLeaderLine = config && config.showLeaderLine ? config.showLeaderLine : true;
+        this._hasPin = false;      
         this._allowFirstPointMove = true;
         this._allowSecondPointMove = true;
     }

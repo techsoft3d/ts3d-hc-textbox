@@ -53,8 +53,13 @@ class TextBoxTitleBar {
     createMarkupItemCallback(manager, pos) {
         let extradiv = this.createExtraDiv("");             
         let backgroundColor = new Communicator.Color(200, 200, 200);
-        let markup = new hcTextBox.TextBoxMarkupItem(manager, pos, undefined, undefined, undefined, undefined, backgroundColor,
-            undefined, undefined, undefined, true, extradiv, undefined, null, false);
+        let config = {
+            backgroundColor: backgroundColor,
+            extraDiv: extradiv,
+            pinned:true
+
+        }
+        let markup = new hcTextBox.TextBoxMarkupItem(manager, pos,config);
         return markup;
 
     }

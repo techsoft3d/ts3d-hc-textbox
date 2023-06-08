@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, secondPoint, secondPointRel, fontStyle, fontSize, backgroundColor, circleColor, circleRadius, maxWidth, pinned, extraDiv, uniqueid, userdata, checkVisibility, showLeaderLine)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>TextBoxMarkupItem<span class="signature">(textBoxManager, config)</span><span class="type-signature"></span></h2>
         
             <div class="class-description"><p>This class represents a single textbox markup element.</p></div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="TextBoxMarkupItem"><span class="type-signature"></span>new TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, secondPoint, secondPointRel, fontStyle, fontSize, backgroundColor, circleColor, circleRadius, maxWidth, pinned, extraDiv, uniqueid, userdata, checkVisibility, showLeaderLine)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="TextBoxMarkupItem"><span class="type-signature"></span>new TextBoxMarkupItem<span class="signature">(textBoxManager, config)</span><span class="type-signature"></span></h4>
     
 
     
@@ -79,8 +79,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -106,10 +104,6 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
             <td class="description last"><p>The manager that will own this markup item</p></td>
         </tr>
@@ -118,13 +112,13 @@
 
         <tr>
             
-                <td class="name"><code>firstPoint</code></td>
+                <td class="name"><code>config</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Point3</span>
+<span class="param-type">Object</span>
 
 
             
@@ -133,414 +127,23 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last"><p>The position of insertion point on the model</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>secondPoint</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Point3</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>The position of the textbox in relation to the insertion point</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>secondPointRel</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Point2</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>A normalized 2D point that is used if the position of the textbox is fixed</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fontStyle</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    monospace
-                
-                </td>
-            
-
-            <td class="description last"><p>The font used for the textbox text</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fontSize</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    12px
-                
-                </td>
-            
-
-            <td class="description last"><p>The font size used for the textbox text</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>backgroundColor</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Color</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The background color of the textbox</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>circleColor</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Color</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The color of the circle that is rendered at the insertion point</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>circleRadius</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    4
-                
-                </td>
-            
-
-            <td class="description last"><p>The radius of the circle that is rendered at the insertion point</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>maxWidth</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    300
-                
-                </td>
-            
-
-            <td class="description last"><p>The maximum width of the textbox</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>pinned</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last"><p>If true, the textbox will be fixed in position</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>extraDiv</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>Extra div text to be added to the textbox</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>uniqueid</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">guid</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>Id of Markup Element</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>userdata</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>User data to be stored with the markup element</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>checkVisibility</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last"><p>If true, the textbox will be hidden if the insertion point is not visible</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>showLeaderLine</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    true
-                
-                </td>
-            
-
-            <td class="description last"><p>If true, the textbox will have a leader line</p></td>
+            <td class="description last"><p>Text Box Configuration:
+firstPoint - The position of insertion point on the model<br>
+secondPoint - The position of the textbox in relation to the insertion point<br>
+secondPointRel - A normalized 2D point that is used if the position of the textbox is fixed<br>
+fontStyle - The font used for the textbox text<br>
+fontSize - The font size used for the textbox text<br>
+backgroundColor - The background color of the textbox<br>
+circleColor - The color of the circle that is rendered at the insertion point<br>
+circleRadius - The radius of the circle that is rendered at the insertion point<br>
+maxWidth - The maximum width of the textbox<br>
+pinned - If true, the textbox will be fixed in position<br>
+extraDiv - Extra div text to be added to the textbox<br>
+uniqueid - Id of Markup Element<br>
+userdata - User data to be stored with the markup element<br>
+checkVisibility - If true, the textbox will be hidden if the insertion point is not visible<br>
+showLeaderLine - If true, the textbox will have a leader line</p></td>
         </tr>
 
     
