@@ -28,20 +28,44 @@ export class TextBoxOperator {
         this._mouseActivationCallback = null;
 
         this._markupConfig = {};
+
+        this._autoHide = false;
        
         // this._mouseActivationCallback = function(event) {
         //     return (event.getButton() == Communicator.Button.Left && event.shiftDown());
         // };
     }
-
-
-
+   /**
+       * Sets markup configuration object for creating new markup
+       * @param  {Object} config - Markup Configuration Object
+     */
     setMarkupConfig(config) {
         this._markupConfig = config;
     }
 
+    
+    /**
+       * Retrieves current Markup Configuration Object
+       * @return  {Object}  - Markup Configuration Object
+     */
     getMarkupConfig() {
         return this._markupConfig;
+    }
+
+    /**
+       * Retrieves if markup is automatically hidden when mouse clicked outside of markup
+       * @return  {boolean}  - Autohide State
+     */
+    getAutoHide() {
+        return this._autoHide;
+    }
+
+    /**
+       * Sets if markup is automatically hidden when mouse clicked outside of markup
+       * @param  {boolean} autoHide - If true, markup is automatically hidden when mouse clicked outside of markup
+     */
+    setAutoHide(autoHide) {
+        this._autoHide = autoHide;
     }
 
   /**
@@ -133,7 +157,7 @@ export class TextBoxOperator {
         }
         else {
             if (!this._mouseMoved) {
-                if (this._textBoxManager.getAutoHide()) {
+                if (this._autoHide) {
                     this._textBoxManager.hideAll();
                 }
             }
@@ -142,6 +166,8 @@ export class TextBoxOperator {
         event.setHandled(this._handled);
         this._activeMarkupItem = null;
     }
+
+    
 
     async _addMarkupItem(position) {
         const model = this._viewer.model;

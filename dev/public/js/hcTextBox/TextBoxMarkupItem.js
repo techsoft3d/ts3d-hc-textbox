@@ -65,7 +65,10 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      *  uniqueid - Id of Markup Element  
      *  userdata - User data to be stored with the markup element  
      *  checkVisibility - If true, the textbox will be hidden if the insertion point is not visible  
-     * showLeaderLine - If true, the textbox will have a leader line  
+     *  showLeaderLine - If true, the textbox will have a leader line  
+     *  hasPin - If true, the textbox will have a 3d pin object
+     *  allowFirstPointMove - If true, the insertion point can be moved
+     *  allowSecondPointMove - If true, the textbox can be moved
      */    
     constructor(textBoxManager,firstPoint,config) {
 
@@ -118,6 +121,11 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._allowSecondPointMove = config && config.allowSecondPointMove ? config.allowSecondPointMove : true;
     }
 
+     /**
+     * Determines if the provided nodeid is part of the note-pin geometry
+     * @param  {nodeid} nodeid - Node Id
+     * @return {boolean} - True if the nodeid is part of the note-pin geometry, false otherwise
+     */
     isPinGeometry(nodeid) {
         if (!this._hasPin) {
             return false;
@@ -128,13 +136,25 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         return false;
     }
 
+
+    /**
+     * Returns true if first point can be moved
+     * @return {boolean} - True if first point can be moved, false otherwise
+     */    
     getAllowFirstPointMove() {
         return this._allowFirstPointMove;
     }
 
+     /**
+     * Returns true if second point can be moved
+     * @return {boolean} - True if second point can be moved, false otherwise
+     */    
+
     getAllowSecondPointMove() {
         return this._allowSecondPointMove;
     }
+
+    
 
     async setupPin(position, normal) {
         if (this._hasPin) {

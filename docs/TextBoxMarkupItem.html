@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>TextBoxMarkupItem<span class="signature">(textBoxManager, config)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, config)</span><span class="type-signature"></span></h2>
         
             <div class="class-description"><p>This class represents a single textbox markup element.</p></div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="TextBoxMarkupItem"><span class="type-signature"></span>new TextBoxMarkupItem<span class="signature">(textBoxManager, config)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="TextBoxMarkupItem"><span class="type-signature"></span>new TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, config)</span><span class="type-signature"></span></h4>
     
 
     
@@ -112,6 +112,29 @@
 
         <tr>
             
+                <td class="name"><code>firstPoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Point3</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The position of insertion point on the model</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
                 <td class="name"><code>config</code></td>
             
 
@@ -129,7 +152,6 @@
             
 
             <td class="description last"><p>Text Box Configuration:
-firstPoint - The position of insertion point on the model<br>
 secondPoint - The position of the textbox in relation to the insertion point<br>
 secondPointRel - A normalized 2D point that is used if the position of the textbox is fixed<br>
 fontStyle - The font used for the textbox text<br>
@@ -143,7 +165,10 @@ extraDiv - Extra div text to be added to the textbox<br>
 uniqueid - Id of Markup Element<br>
 userdata - User data to be stored with the markup element<br>
 checkVisibility - If true, the textbox will be hidden if the insertion point is not visible<br>
-showLeaderLine - If true, the textbox will have a leader line</p></td>
+showLeaderLine - If true, the textbox will have a leader line<br>
+hasPin - If true, the textbox will have a 3d pin object
+allowFirstPointMove - If true, the insertion point can be moved
+allowSecondPointMove - If true, the textbox can be moved</p></td>
         </tr>
 
     
@@ -663,6 +688,220 @@ showLeaderLine - If true, the textbox will have a leader line</p></td>
 <div class="param-desc">
     <ul>
 <li>True if text editing is allowed, false otherwise</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getAllowFirstPointMove"><span class="type-signature"></span>getAllowFirstPointMove<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Returns true if first point can be moved</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>True if first point can be moved, false otherwise</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getAllowSecondPointMove"><span class="type-signature"></span>getAllowSecondPointMove<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Returns true if second point can be moved</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>True if second point can be moved, false otherwise</li>
 </ul>
 </div>
 
@@ -1723,6 +1962,162 @@ showLeaderLine - If true, the textbox will have a leader line</p></td>
 
 
 
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="isPinGeometry"><span class="type-signature"></span>isPinGeometry<span class="signature">(nodeid)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Determines if the provided nodeid is part of the note-pin geometry</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>nodeid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">nodeid</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Node Id</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>True if the nodeid is part of the note-pin geometry, false otherwise</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 

@@ -12,7 +12,6 @@ export class TextBoxManager {
         this._markups = [];
         this._useMarkupManager = useMarkupManager;
         this._markupUpdatedCallback = null;
-        this._autoHide = false;
 
         PinUtility.createMeshes(viewer, 2,2);
 
@@ -55,13 +54,6 @@ export class TextBoxManager {
 
     }
 
-    getAutoHide() {
-        return this._autoHide;
-    }
-
-    setAutoHide(autoHide) {
-        this._autoHide = autoHide;
-    }
 
     /**
        * Sets a callback that gets triggered when a markup is updated

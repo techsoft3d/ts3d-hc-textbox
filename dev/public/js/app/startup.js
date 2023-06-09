@@ -123,6 +123,6 @@ function switchCreatePins() {
 }
 
 function switchAutoHide() {
-    textBoxOperator.getTextBoxManager().setAutoHide(document.getElementById('autohideCheck').checked);
+    textBoxOperator.setAutoHide(document.getElementById('autohideCheck').checked);
 }
 
