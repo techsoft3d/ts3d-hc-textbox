@@ -27,8 +27,8 @@ export class TextBoxOperator {
 
         this._mouseActivationCallback = null;
 
-        this._enablePin = false;
-
+        this._markupConfig = {};
+       
         // this._mouseActivationCallback = function(event) {
         //     return (event.getButton() == Communicator.Button.Left && event.shiftDown());
         // };
@@ -36,12 +36,12 @@ export class TextBoxOperator {
 
 
 
-    setEnablePin(enable) {
-        this._enablePin = enable;
+    setMarkupConfig(config) {
+        this._markupConfig = config;
     }
 
-    getEnablePin() {
-        return this._enablePin;
+    getMarkupConfig() {
+        return this._markupConfig;
     }
 
   /**
@@ -165,10 +165,10 @@ export class TextBoxOperator {
             return;
         }
         if (!this._createMarkupItemCallback) {
-            this._activeMarkupItem = new TextBoxMarkupItem(this._textBoxManager, selectionPosition, { hasPin: this._enablePin });
+            this._activeMarkupItem = new TextBoxMarkupItem(this._textBoxManager, selectionPosition, this._markupConfig);
         }
         else {
-            this._activeMarkupItem = this._createMarkupItemCallback(this._textBoxManager, selectionPosition, this._enablePin);
+            this._activeMarkupItem = this._createMarkupItemCallback(this._textBoxManager, selectionPosition, this._markupConfig);
         }
 
         this._activeMarkupItem.setupPin(selectionItem.getPosition(),faceEntity.getNormal());
