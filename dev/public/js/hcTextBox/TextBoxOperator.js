@@ -123,8 +123,13 @@ export class TextBoxOperator {
     onMouseUp(event) {
 
         if (this._dClickTime !== null) {           
-            this._activeMarkupItem.select();
-
+            if (this._activeMarkupItem.getHidden()) {
+                this._activeMarkupItem.show();
+                this._textBoxManager.refreshMarkup()
+            }
+            else {
+                this._activeMarkupItem.select();
+            }
         }
         else {
             if (!this._mouseMoved) {

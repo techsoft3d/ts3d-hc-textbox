@@ -520,11 +520,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             if (point.x >= minx && point.x <= maxx &&
                 point.y >= miny && point.y <= maxy) {
                 this._textHit = false;
-                if (this._hidden) {
-                    this._hidden = false;
-                    this.draw();
-                    this._textBoxManager.refreshMarkup();
-                }
+              
                 return true;
             }
         }
