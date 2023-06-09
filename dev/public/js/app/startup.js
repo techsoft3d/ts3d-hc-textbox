@@ -53,9 +53,10 @@ function createUILayout() {
 }
 
 
-function createMarkupItemCallback(manager, pos) {
+function createMarkupItemCallback(manager, pos, createPin) {
     let config = {
-        pinned:true
+        pinned:true,
+        hasPin: createPin
     }
     let markup = new CustomTextBoxMarkupItem(manager, pos,config);
     return markup;
@@ -63,8 +64,11 @@ function createMarkupItemCallback(manager, pos) {
 }
 
 
-function createMarkupItemCallbackQuill(manager, pos) {
-    let markup = new QuillTextBoxMarkupItem(manager, pos);
+function createMarkupItemCallbackQuill(manager, pos, createPin) {
+    let config = {
+        hasPin: createPin
+    }
+    let markup = new QuillTextBoxMarkupItem(manager, pos, config);
     return markup;
 
 }

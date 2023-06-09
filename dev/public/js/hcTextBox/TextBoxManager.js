@@ -12,7 +12,7 @@ export class TextBoxManager {
         this._markups = [];
         this._useMarkupManager = useMarkupManager;
         this._markupUpdatedCallback = null;
-        this._autoHide = true;
+        this._autoHide = false;
 
         PinUtility.createMeshes(viewer, 2,2);
 

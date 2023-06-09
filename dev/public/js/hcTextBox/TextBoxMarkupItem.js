@@ -24,7 +24,11 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             extraDiv : json.extraDiv ? json.extraDiv : null,
             uniqueid : json.uniqueid,
             userdata : json.userdata,
-            showLeaderLine: json.showLeaderLine
+            showLeaderLine: json.showLeaderLine,
+            hasPin: json.hasPin,
+            allowFirstPointMove: json.allowFirstPointMove,
+            allowSecondPointMove: json.allowSecondPointMove
+
         };
 
         let markup = new TextBoxMarkupItem(textBoxManager, json.firstPoint,config);
@@ -109,9 +113,9 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._initialize();
         this._hidden = false;
         this._showLeaderLine = config && config.showLeaderLine ? config.showLeaderLine : true;
-        this._hasPin = true;      
-        this._allowFirstPointMove = true;
-        this._allowSecondPointMove = true;
+        this._hasPin = config && config.hasPin ? config.hasPin : false;
+        this._allowFirstPointMove = config && config.allowFirstPointMove ? config.allowFirstPointMove : true;
+        this._allowSecondPointMove = config && config.allowSecondPointMove ? config.allowSecondPointMove : true;
     }
 
     isPinGeometry(nodeid) {
