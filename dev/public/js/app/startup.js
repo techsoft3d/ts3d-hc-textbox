@@ -121,3 +121,8 @@ function switchCreatePins() {
         textBoxOperator.setMarkupConfig({hasPin:false});
     }
 }
+
+function switchAutoHide() {
+    textBoxOperator.getTextBoxManager().setAutoHide(document.getElementById('autohideCheck').checked);
+}
+

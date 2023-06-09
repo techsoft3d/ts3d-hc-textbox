@@ -59,7 +59,7 @@ export class TextBoxManager {
         return this._autoHide;
     }
 
-    setAutoHide() {
+    setAutoHide(autoHide) {
         this._autoHide = autoHide;
     }
 
