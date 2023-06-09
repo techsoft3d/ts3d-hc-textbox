@@ -365,14 +365,16 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     }
 
     draw() {
-        if (this._hidden) {
+        if (this._hidden) {            
             $(this._textBoxDiv).css("display","none");
-            $(this._svgElement).css("display","none");
-            return;
+            // $(this._svgElement).css("display","none");
+            // return;
         }
-
-        $(this._textBoxDiv).css("display","flex");
-        $(this._svgElement).css("display","block");
+        else {
+            $(this._textBoxDiv).css("display","flex");
+            $(this._svgElement).css("display","block");
+        }
+        
 
         $(this._svgElement).empty();
         const renderer = this._viewer.markupManager.getRenderer();
@@ -450,13 +452,20 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             this._lineGeometryShape.pushPoint(fsecond);
 
             if (!this._textBoxManager.getUseMarkupManager()) {
-                this._addPolylineElement(this._lineGeometryShape);
-                this._addCircleElement(this._circleGeometryShape);
+                if (!this._hidden) {
+                    this._addPolylineElement(this._lineGeometryShape);
+                }
+                if (!this._hasPin || !this._hidden) {
+                    this._addCircleElement(this._circleGeometryShape);
+                }
             }
             else {
-
-                renderer.drawPolyline(this._lineGeometryShape);
-                renderer.drawCircle(this._circleGeometryShape);
+                if (!this._hidden) {
+                    renderer.drawPolyline(this._lineGeometryShape);
+                }
+                if (!this._hasPin || !this._hidden) {
+                    renderer.drawCircle(this._circleGeometryShape);
+                }
             }
         }
 
@@ -469,50 +478,55 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         }
     }
 
-    hit(point) {
-        if (this._hidden) {
-            return false;
-        }
-
+    hit(point) {      
+        
         let minx =  parseInt($(this._textBoxDiv).css("left"));
         let miny =  parseInt($(this._textBoxDiv).css("top"));
         let maxx = parseInt(minx) + parseInt($(this._textBoxDiv).css("width"));
         let maxy = parseInt(miny) + parseInt($(this._textBoxDiv).css("height"));
 
    
-        if (point.x >= minx && point.x <= maxx &&
-            point.y >= miny && point.y <= maxy) {
-                this._textHit = true;
-                return true;
-        }
-
-        if (this._extraTextDiv) {
-            let pos = $(this._extraTextDiv).position();
-            minx = minx + pos.left;
-            miny = miny + pos.top;
-            let maxx = minx + parseInt($(this._extraTextDiv).css("width"));
-            let maxy = miny + parseInt($(this._extraTextDiv).css("height"));
-
-
+        if (!this._hidden) {
             if (point.x >= minx && point.x <= maxx &&
                 point.y >= miny && point.y <= maxy) {
-              //  this.deselect();
-                this._textHit = true;
-                return true;
+                    this._textHit = true;
+                    return true;
+            }
+
+            if (this._extraTextDiv) {
+                let pos = $(this._extraTextDiv).position();
+                minx = minx + pos.left;
+                miny = miny + pos.top;
+                let maxx = minx + parseInt($(this._extraTextDiv).css("width"));
+                let maxy = miny + parseInt($(this._extraTextDiv).css("height"));
+
+
+                if (point.x >= minx && point.x <= maxx &&
+                    point.y >= miny && point.y <= maxy) {
+                //  this.deselect();
+                    this._textHit = true;
+                    return true;
+                }
             }
         }
 
 
-
-        let p1 = Communicator.Point2.fromPoint3(this._viewer.view.projectPoint(this._firstPoint));
-        minx =  p1.x - 7;
-        miny =  p1.y - 7;
-        maxx =  p1.x + 7;
-        maxy =  p1.y + 7;
-        if (point.x >= minx && point.x <= maxx &&
-            point.y >= miny && point.y <= maxy) {
+        if (!this._hasPin || !this._hidden) {
+            let p1 = Communicator.Point2.fromPoint3(this._viewer.view.projectPoint(this._firstPoint));
+            minx = p1.x - 7;
+            miny = p1.y - 7;
+            maxx = p1.x + 7;
+            maxy = p1.y + 7;
+            if (point.x >= minx && point.x <= maxx &&
+                point.y >= miny && point.y <= maxy) {
                 this._textHit = false;
+                if (this._hidden) {
+                    this._hidden = false;
+                    this.draw();
+                    this._textBoxManager.refreshMarkup();
+                }
                 return true;
+            }
         }
         this.deselect();
         return false;            
