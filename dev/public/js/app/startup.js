@@ -36,7 +36,7 @@ function createUILayout() {
                     },
                     {
                         type: 'column',
-                        width: 17,
+                        width: 15,
                         height: 35,
                         content: [
                             {
@@ -89,4 +89,35 @@ function createMarkupItemCallbackQuill(manager, pos, config) {
     let markup = new QuillTextBoxMarkupItem(manager, pos, config);
     return markup;
 
+}
+
+
+function textBoxTypeChanged() {
+    let type = $("#textBoxTypeSelect").val();
+
+    if (type == "Minimal") {
+        textBoxOperator.setCreateMarkupItemCallback(null);
+    }
+    else if (type == "Title Bar") {
+        let titleBar = new TextBoxTitleBar(textBoxOperator.getTextBoxManager(), textBoxOperator);
+    }
+    else if (type == "Custom") {
+        textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallback);
+    }
+    else if (type == "Quill") {
+        textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallbackQuill);
+    }
+}
+
+function switchAllowCreation() {
+    textBoxOperator.setAllowCreation(document.getElementById('allowCreationCheck').checked ? 2 : 0);
+}
+
+function switchCreatePins() {
+    if (document.getElementById('createPinsCheck').checked) {
+        textBoxOperator.setMarkupConfig({hasPin:true});
+    }
+    else {
+        textBoxOperator.setMarkupConfig({hasPin:false});
+    }
 }

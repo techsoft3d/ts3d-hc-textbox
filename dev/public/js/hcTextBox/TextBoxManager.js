@@ -111,6 +111,18 @@ export class TextBoxManager {
         this._viewer.view.setPointVisibilityTest(visibilities);
     }
 
+    deleteAll() {
+        for (let i = 0; i < this._markups.length; i++) {
+
+            if (this.getMarkupUpdatedCallback()) {
+                this.getMarkupUpdatedCallback()(this._markups[i], true);
+            }
+            this._viewer.markupManager.unregisterMarkup(this._markups[i].getMarkupId());
+            this._markups[i].destroy();
+        }
+        this._markups = [];
+    }
+
     /**
        * Deletes a markup item from the manager
        * @param  {guid} uniqueid - Id of Markup Element
