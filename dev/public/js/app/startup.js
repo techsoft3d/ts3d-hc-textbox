@@ -14,47 +14,69 @@ function startup()
 
 function createUILayout() {
 
-   
-    var viewermenu = [        
-        {
-            name: 'Setup Text Box with Title Bar',
-            fun: function () {
-                          
-                new TextBoxTitleBar(textBoxOperator.getTextBoxManager(), textBoxOperator);
-
-            }
-        },   
-        {
-            name: 'Setup Custom Text Box',
-            fun: function () {
-                          
-                textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallback);
-
-
-            }
+    var config = {
+        settings: {
+            showPopoutIcon: false,
+            showMaximiseIcon: true,
+            showCloseIcon: false
         },
-        {
-            name: 'Setup Quill Text Box',
-            fun: function () {
-                          
-                textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallbackQuill);
+        content: [
+            {
+                type: 'row',
+                content: [
+                    {
+                        type: 'column',
+                        content: [{
+                            type: 'component',
+                            componentName: 'Viewer',
+                            isClosable: false,
+                            width: 83,
+                            componentState: { label: 'A' }
+                        }],
+                    },
+                    {
+                        type: 'column',
+                        width: 17,
+                        height: 35,
+                        content: [
+                            {
+                                type: 'component',
+                                componentName: 'Settings',
+                                isClosable: true,
+                                height: 15,
+                                componentState: { label: 'C' }
+                            }                                                   
+                        ]
+                    },                  
+                ],
+            }]
+    };
 
 
-            }
-        },                                                          
-        
-    ];
 
-    $('#viewermenu1button').contextMenu(viewermenu, undefined, {
-        'displayAround': 'trigger',
-        'containment': '#viewerContainer'
+    myLayout = new GoldenLayout(config);
+    myLayout.registerComponent('Viewer', function (container, componentState) {
+        $(container.getElement()).append($("#content"));
     });
+
+    myLayout.registerComponent('Settings', function (container, componentState) {
+        $(container.getElement()).append($("#settingsdiv"));
+    });
+
+   
+
+    myLayout.on('stateChanged', function () {
+        if (hwv != null) {
+            hwv.resizeCanvas();
+          
+        }
+    });
+    myLayout.init();
 
 }
 
 
-function createMarkupItemCallback(manager, pos, config) {
-  
+function createMarkupItemCallback(manager, pos, config) {  
     let myConfig = structuredClone(config);
     myConfig.pinned = true;
     let markup = new CustomTextBoxMarkupItem(manager, pos,myConfig);
