@@ -61,7 +61,7 @@ export class PinUtility {
         return meshid;
     }
 
-    static async createPinStemInstance(viewer, matrix) {
+    static async createPinStemInstance(viewer, matrix, stemColor = Communicator.Color.black()) {
         const pinStemMeshId = PinUtility.stemID;       
 
         const meshInstanceData = new Communicator.MeshInstanceData(
@@ -69,7 +69,7 @@ export class PinUtility {
             matrix,
             "pin-stem-instance",
             undefined,
-            Communicator.Color.black(),
+            stemColor,
         );
 
         meshInstanceData.setOpacity(1);
@@ -88,7 +88,7 @@ export class PinUtility {
         return await viewer.model.createMeshInstance(meshInstanceData, undefined, true, true);
     }
 
-    static async createPinSphereInstance(viewer, matrix) {
+    static async createPinSphereInstance(viewer, matrix, sphereColor = Communicator.Color.white()) {
         const pinSphereMeshId = PinUtility.sphereID;
        
 
@@ -96,7 +96,7 @@ export class PinUtility {
             pinSphereMeshId,
             matrix,
             "pin-sphere-instance",
-            Communicator.Color.white(),
+            sphereColor,
             undefined,
         );
 

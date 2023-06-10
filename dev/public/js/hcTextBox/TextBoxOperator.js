@@ -112,7 +112,7 @@ export class TextBoxOperator {
             (this._mouseActivationCallback && this._mouseActivationCallback(event))) {
             const markup = this._textBoxManager.pickMarkupItem(event.getPosition());
             if (markup && markup instanceof TextBoxMarkupItem) {
-                if (markup.getPinned()) {
+                if (markup.getFixed()) {
                     markup.unprojectTextAnchor();                    
                 }
                 this._offset = Communicator.Point2.subtract(event.getPosition(), this._viewer.view.projectPoint(markup.getSecondPoint()));

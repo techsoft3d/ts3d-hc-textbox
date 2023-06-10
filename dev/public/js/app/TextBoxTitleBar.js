@@ -2,7 +2,7 @@ class TextBoxTitleBar {
     constructor(manager, operator) {
 
         let _this = this;
-        operator.setCreateMarkupItemCallback(function (manager, pos) { return _this.createMarkupItemCallback(manager, pos); });
+        operator.setCreateMarkupItemCallback(function (manager, pos, config) { return _this.createMarkupItemCallback(manager, pos, config); });
         this.textBoxManager = manager;
         this.textBoxOperator = operator;
     }
@@ -29,11 +29,11 @@ class TextBoxTitleBar {
         });
      
 
-        let pinnedButton = $(titlediv).children()[2];
-        $(pinnedButton).on("click", (e) => {
+        let fixedButton = $(titlediv).children()[2];
+        $(fixedButton).on("click", (e) => {
             let markup = _this.textBoxManager.getByID(e.target.parentElement.parentElement.id);
-            markup.setPinned(!markup.getPinned());
-            _this.updatePinned(markup);
+            markup.setFixed(!markup.getFixed());
+            _this.updateFixed(markup);
         });
 
         let visibilityButton= $(titlediv).children()[3];
@@ -43,31 +43,27 @@ class TextBoxTitleBar {
             _this.updateVisiblityTest(markup);
         });
 
-        $([deleteButton, pinnedButton, visibilityButton]).hover(
+        $([deleteButton, fixedButton, visibilityButton]).hover(
             function() { $( this).css("background-color", "lightgrey" ); }, function() { $( this).css("background-color", "white" );}
         );
 
         return titlediv;
     }
 
-    createMarkupItemCallback(manager, pos) {
-        let extradiv = this.createExtraDiv("");             
-        let backgroundColor = new Communicator.Color(200, 200, 200);
-        let config = {
-            backgroundColor: backgroundColor,
-            extraDiv: extradiv,
-            pinned:true
-
-        }
-        let markup = new hcTextBox.TextBoxMarkupItem(manager, pos,config);
+    createMarkupItemCallback(manager, pos, config) {
+        let myConfig = structuredClone(config);
+        myConfig.backgroundColor = new Communicator.Color(200, 200, 200);
+        myConfig.extraDiv = this.createExtraDiv("");
+        myConfig.fixed = true;        
+        let markup = new hcTextBox.TextBoxMarkupItem(manager, pos,myConfig);
         return markup;
 
     }
 
-    updatePinned(markup) {
+    updateFixed(markup) {
 
         let button = $(markup.getExtraDiv()).children()[2];
-        if (markup.getPinned()) {
+        if (markup.getFixed()) {
             $($(button).children()[0]).css("background-color", "black");
             $(button).prop('title', 'Unpin');
         }

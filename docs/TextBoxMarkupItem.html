@@ -160,7 +160,7 @@ backgroundColor - The background color of the textbox<br>
 circleColor - The color of the circle that is rendered at the insertion point<br>
 circleRadius - The radius of the circle that is rendered at the insertion point<br>
 maxWidth - The maximum width of the textbox<br>
-pinned - If true, the textbox will be fixed in position<br>
+fixed - If true, the textbox will be fixed in position<br>
 extraDiv - Extra div text to be added to the textbox<br>
 uniqueid - Id of Markup Element<br>
 userdata - User data to be stored with the markup element<br>
@@ -1250,6 +1250,113 @@ allowSecondPointMove - If true, the textbox can be moved</p></td>
     
 
     
+    <h4 class="name" id="getFixed"><span class="type-signature"></span>getFixed<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Returns the markups fixed state</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>True if the markup is fixed, false otherwise</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getHidden"><span class="type-signature"></span>getHidden<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
@@ -1328,113 +1435,6 @@ allowSecondPointMove - If true, the textbox can be moved</p></td>
 <div class="param-desc">
     <ul>
 <li>True if the markup is hidden, false otherwise</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getPinned"><span class="type-signature"></span>getPinned<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Returns the markups pinned state</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <ul>
-<li>True if the markup is pinned, false otherwise</li>
 </ul>
 </div>
 
@@ -2872,7 +2872,7 @@ allowSecondPointMove - If true, the textbox can be moved</p></td>
     
 
     
-    <h4 class="name" id="setPinned"><span class="type-signature"></span>setPinned<span class="signature">(pinned)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setFixed"><span class="type-signature"></span>setFixed<span class="signature">(fixed)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2880,7 +2880,7 @@ allowSecondPointMove - If true, the textbox can be moved</p></td>
 
 
 <div class="description">
-    <p>Sets the markup's pinned state</p>
+    <p>Sets the markup's fixed state</p>
 </div>
 
 
@@ -2916,7 +2916,7 @@ allowSecondPointMove - If true, the textbox can be moved</p></td>
 
         <tr>
             
-                <td class="name"><code>pinned</code></td>
+                <td class="name"><code>fixed</code></td>
             
 
             <td class="type">
@@ -2932,7 +2932,7 @@ allowSecondPointMove - If true, the textbox can be moved</p></td>
 
             
 
-            <td class="description last"><p>True if the markup is pinned, false otherwise</p></td>
+            <td class="description last"><p>True if the markup is fixed, false otherwise</p></td>
         </tr>
 
     

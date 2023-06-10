@@ -78,7 +78,7 @@ function createUILayout() {
 
 function createMarkupItemCallback(manager, pos, config) {  
     let myConfig = structuredClone(config);
-    myConfig.pinned = true;
+    myConfig.pinSphereColor = new Communicator.Color(255,0,0);
     let markup = new CustomTextBoxMarkupItem(manager, pos,myConfig);
     return markup;
 

@@ -20,15 +20,16 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             circleColor : Communicator.Color.fromJson(json.circleColor),
             circleRadius : json.circleRadius,
             maxWidth : json.maxWidth,
-            pinned : json.pinned,
+            fixed : json.fixed,
             extraDiv : json.extraDiv ? json.extraDiv : null,
             uniqueid : json.uniqueid,
             userdata : json.userdata,
-            showLeaderLine: json.showLeaderLine,
-            hasPin: json.hasPin,
+            showLeaderLine: json.showLeaderLine,         
             allowFirstPointMove: json.allowFirstPointMove,
-            allowSecondPointMove: json.allowSecondPointMove
-
+            allowSecondPointMove: json.allowSecondPointMove,
+            hasPin: json.hasPin,
+            pinSphereColor : Communicator.Color.fromJson(json.pinSphereColor),
+            pinStemColor : Communicator.Color.fromJson(json.pinStemColor)
         };
 
         let markup = new TextBoxMarkupItem(textBoxManager, json.firstPoint,config);
@@ -60,7 +61,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      *  circleColor - The color of the circle that is rendered at the insertion point  
      *  circleRadius - The radius of the circle that is rendered at the insertion point  
      *  maxWidth - The maximum width of the textbox  
-     *  pinned - If true, the textbox will be fixed in position  
+     *  fixed - If true, the textbox will be fixed in position  
      *  extraDiv - Extra div text to be added to the textbox  
      *  uniqueid - Id of Markup Element  
      *  userdata - User data to be stored with the markup element  
@@ -97,7 +98,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._textHit = true;
         this._maxWidth = config && config.maxWidth ? config.maxWidth : 300;
 
-        this._pinned = config && config.pinned ? config.pinned : false;
+        this._fixed = config && config.fixed ? config.fixed : false;
         this._checkVisibility = config && config.checkVisibility ? config.checkVisibility : false;
         this._lineGeometryShape = new Communicator.Markup.Shape.Polyline();
         this._circleGeometryShape = new Communicator.Markup.Shape.Circle();
@@ -117,6 +118,9 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._hidden = false;
         this._showLeaderLine = config && config.showLeaderLine ? config.showLeaderLine : true;
         this._hasPin = config && config.hasPin ? config.hasPin : false;
+        this._pinSize = config && config.pinSize ? config.pinSize : 0.025;
+        this._pinSphereColor = config && config.pinSphereColor ? config.pinSphereColor : undefined;
+        this._pinStemColor = config && config.pinStemColor ? config.pinStemColor : undefined;
         this._allowFirstPointMove = config && config.allowFirstPointMove ? config.allowFirstPointMove : true;
         this._allowSecondPointMove = config && config.allowSecondPointMove ? config.allowSecondPointMove : true;
     }
@@ -158,14 +162,13 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
     async setupPin(position, normal) {
         if (this._hasPin) {
-            let matrix = PinUtility.createPinTransformationMatrix(position,normal,0.03);
-            this._stemID = await PinUtility.createPinStemInstance(this._viewer, matrix);
-            this._sphereID = await PinUtility.createPinSphereInstance(this._viewer, matrix);
+            let matrix = PinUtility.createPinTransformationMatrix(position,normal,this._pinSize);
+            this._stemID = await PinUtility.createPinStemInstance(this._viewer, matrix,this._pinStemColor);
+            this._sphereID = await PinUtility.createPinSphereInstance(this._viewer, matrix, this._pinSphereColor);
             let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
             this._firstPoint =  pinBounding.center();
             this._secondPoint =  pinBounding.center();
             this._allowFirstPointMove = false;
-            this._allowSecondPointMove = false;
         }
     }
 
@@ -315,7 +318,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             "secondPoint": this._secondPoint.toJson(),
             "secondPointRel": this._secondPointRel.toJson(),
             "maxWidth": this._maxWidth,
-            "pinned": this._pinned,
+            "fixed": this._fixed,
             "allowEditing": this._allowEditing,
             "text": this._textBoxText ? encodeURIComponent($(this._textBoxText).val()) : "",
             "userdata": this._userdata,
@@ -337,16 +340,16 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     }
 
   /**
-     * Sets the markup's pinned state
-     * @param  {boolean} pinned - True if the markup is pinned, false otherwise
+     * Sets the markup's fixed state
+     * @param  {boolean} fixed - True if the markup is fixed, false otherwise
      */    
-    setPinned(pinned) {
-        if (pinned != this._pinned) {
-            if (this._pinned) {
+    setFixed(fixed) {
+        if (fixed != this._fixed) {
+            if (this._fixed) {
                 this.setSecondPoint(this._firstPoint);
             }
             this._textBoxManager.refreshMarkup();
-            this._pinned = pinned;
+            this._fixed = fixed;
             if (this._textBoxManager.getMarkupUpdatedCallback()) {
                 this._textBoxManager.getMarkupUpdatedCallback()(this);
             }
@@ -355,11 +358,11 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
 
  /**
-    * Returns the markups pinned state
-    * @return {boolean} - True if the markup is pinned, false otherwise
+    * Returns the markups fixed state
+    * @return {boolean} - True if the markup is fixed, false otherwise
     */    
-    getPinned() {
-        return this._pinned;
+    getFixed() {
+        return this._fixed;
     }
 
 
@@ -401,7 +404,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         const view = this._viewer.view;
         this._lineGeometryShape.clearPoints();
 
-        if (this._hasPin) {
+        if (this._hasPin && !this._fixed) {
             (async () => {
                 let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
                 this._firstPoint =  pinBounding.center();
@@ -417,7 +420,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         let dims = this._getDivDimensions();
 
         let p2;
-        if (this._pinned) {
+        if (this._fixed) {
             p2 = new Communicator.Point2(this._secondPointRel.x * dims.width,this._secondPointRel.y * dims.height);
         }
         else {
