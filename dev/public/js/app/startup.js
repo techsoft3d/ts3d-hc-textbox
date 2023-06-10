@@ -77,7 +77,7 @@ function createUILayout() {
 
 
 function createMarkupItemCallback(manager, pos, config) {  
-    let myConfig = structuredClone(config);
+    let myConfig = Object.assign({}, config);
     myConfig.pinSphereColor = new Communicator.Color(255,0,0);
     let markup = new CustomTextBoxMarkupItem(manager, pos,myConfig);
     return markup;
@@ -115,7 +115,7 @@ function switchAllowCreation() {
 
 function switchCreatePins() {
     if (document.getElementById('createPinsCheck').checked) {
-        textBoxOperator.setMarkupConfig({hasPin:true});
+        textBoxOperator.setMarkupConfig({hasPin:true, pinSphereColor: new Communicator.Color(0,0,255)});
     }
     else {
         textBoxOperator.setMarkupConfig({hasPin:false});

@@ -51,7 +51,7 @@ class TextBoxTitleBar {
     }
 
     createMarkupItemCallback(manager, pos, config) {
-        let myConfig = structuredClone(config);
+        let myConfig = Object.assign({}, config);
         myConfig.backgroundColor = new Communicator.Color(200, 200, 200);
         myConfig.extraDiv = this.createExtraDiv("");
         myConfig.fixed = true;        
