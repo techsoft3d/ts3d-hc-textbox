@@ -126,3 +126,8 @@ function switchAutoHide() {
     textBoxOperator.setAutoHide(document.getElementById('autohideCheck').checked);
 }
 
+function createOneNote() {
+        
+    let item = new hcTextBox.TextBoxMarkupItem(textBoxOperator.getTextBoxManager(), new Communicator.Point3(0,0,0));
+    textBoxOperator.getTextBoxManager().add(item);
+}
