@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, secondPoint, secondPointRel, fontStyle, fontSize, backgroundColor, circleColor, circleRadius, maxWidth, pinned, extraDiv, uniqueid, userdata, checkVisibility, showLeaderLine)</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, config)</span><span class="type-signature"></span></h2>
         
             <div class="class-description"><p>This class represents a single textbox markup element.</p></div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="TextBoxMarkupItem"><span class="type-signature"></span>new TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, secondPoint, secondPointRel, fontStyle, fontSize, backgroundColor, circleColor, circleRadius, maxWidth, pinned, extraDiv, uniqueid, userdata, checkVisibility, showLeaderLine)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="TextBoxMarkupItem"><span class="type-signature"></span>new TextBoxMarkupItem<span class="signature">(textBoxManager, firstPoint, config)</span><span class="type-signature"></span></h4>
     
 
     
@@ -79,8 +79,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -106,10 +104,6 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
             <td class="description last"><p>The manager that will own this markup item</p></td>
         </tr>
@@ -133,10 +127,6 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
             <td class="description last"><p>The position of insertion point on the model</p></td>
         </tr>
@@ -145,13 +135,13 @@
 
         <tr>
             
-                <td class="name"><code>secondPoint</code></td>
+                <td class="name"><code>config</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Point3</span>
+<span class="param-type">Object</span>
 
 
             
@@ -160,387 +150,25 @@
             
 
             
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
 
-            <td class="description last"><p>The position of the textbox in relation to the insertion point</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>secondPointRel</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Point2</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>A normalized 2D point that is used if the position of the textbox is fixed</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fontStyle</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    monospace
-                
-                </td>
-            
-
-            <td class="description last"><p>The font used for the textbox text</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>fontSize</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    12px
-                
-                </td>
-            
-
-            <td class="description last"><p>The font size used for the textbox text</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>backgroundColor</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Color</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The background color of the textbox</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>circleColor</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Color</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last"><p>The color of the circle that is rendered at the insertion point</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>circleRadius</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    4
-                
-                </td>
-            
-
-            <td class="description last"><p>The radius of the circle that is rendered at the insertion point</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>maxWidth</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    300
-                
-                </td>
-            
-
-            <td class="description last"><p>The maximum width of the textbox</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>pinned</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last"><p>If true, the textbox will be fixed in position</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>extraDiv</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>Extra div text to be added to the textbox</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>uniqueid</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">guid</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>Id of Markup Element</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>userdata</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    null
-                
-                </td>
-            
-
-            <td class="description last"><p>User data to be stored with the markup element</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>checkVisibility</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    false
-                
-                </td>
-            
-
-            <td class="description last"><p>If true, the textbox will be hidden if the insertion point is not visible</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>showLeaderLine</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-                <td class="default">
-                
-                    true
-                
-                </td>
-            
-
-            <td class="description last"><p>If true, the textbox will have a leader line</p></td>
+            <td class="description last"><p>Text Box Configuration:
+secondPoint - The position of the textbox in relation to the insertion point<br>
+secondPointRel - A normalized 2D point that is used if the position of the textbox is fixed<br>
+fontStyle - The font used for the textbox text<br>
+fontSize - The font size used for the textbox text<br>
+backgroundColor - The background color of the textbox<br>
+circleColor - The color of the circle that is rendered at the insertion point<br>
+circleRadius - The radius of the circle that is rendered at the insertion point<br>
+maxWidth - The maximum width of the textbox<br>
+fixed - If true, the textbox will be fixed in position<br>
+extraDiv - Extra div text to be added to the textbox<br>
+uniqueid - Id of Markup Element<br>
+userdata - User data to be stored with the markup element<br>
+checkVisibility - If true, the textbox will be hidden if the insertion point is not visible<br>
+showLeaderLine - If true, the textbox will have a leader line<br>
+hasPin - If true, the textbox will have a 3d pin object
+allowFirstPointMove - If true, the insertion point can be moved
+allowSecondPointMove - If true, the textbox can be moved</p></td>
         </tr>
 
     
@@ -1089,6 +717,220 @@
     
 
     
+    <h4 class="name" id="getAllowFirstPointMove"><span class="type-signature"></span>getAllowFirstPointMove<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Returns true if first point can be moved</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>True if first point can be moved, false otherwise</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getAllowSecondPointMove"><span class="type-signature"></span>getAllowSecondPointMove<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Returns true if second point can be moved</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>True if second point can be moved, false otherwise</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getCheckVisibility"><span class="type-signature"></span>getCheckVisibility<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
@@ -1408,6 +1250,113 @@
     
 
     
+    <h4 class="name" id="getFixed"><span class="type-signature"></span>getFixed<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Returns the markups fixed state</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>True if the markup is fixed, false otherwise</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getHidden"><span class="type-signature"></span>getHidden<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
 
@@ -1486,113 +1435,6 @@
 <div class="param-desc">
     <ul>
 <li>True if the markup is hidden, false otherwise</li>
-</ul>
-</div>
-
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="getPinned"><span class="type-signature"></span>getPinned<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>Returns the markups pinned state</p>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<h5>Returns:</h5>
-
-        
-<div class="param-desc">
-    <ul>
-<li>True if the markup is pinned, false otherwise</li>
 </ul>
 </div>
 
@@ -2120,6 +1962,162 @@
 
 
 
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="isPinGeometry"><span class="type-signature"></span>isPinGeometry<span class="signature">(nodeid)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Determines if the provided nodeid is part of the note-pin geometry</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>nodeid</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">nodeid</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Node Id</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <ul>
+<li>True if the nodeid is part of the note-pin geometry, false otherwise</li>
+</ul>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">boolean</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -2874,7 +2872,7 @@
     
 
     
-    <h4 class="name" id="setPinned"><span class="type-signature"></span>setPinned<span class="signature">(pinned)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="setFixed"><span class="type-signature"></span>setFixed<span class="signature">(fixed)</span><span class="type-signature"></span></h4>
     
 
     
@@ -2882,7 +2880,7 @@
 
 
 <div class="description">
-    <p>Sets the markup's pinned state</p>
+    <p>Sets the markup's fixed state</p>
 </div>
 
 
@@ -2918,7 +2916,7 @@
 
         <tr>
             
-                <td class="name"><code>pinned</code></td>
+                <td class="name"><code>fixed</code></td>
             
 
             <td class="type">
@@ -2934,7 +2932,7 @@
 
             
 
-            <td class="description last"><p>True if the markup is pinned, false otherwise</p></td>
+            <td class="description last"><p>True if the markup is fixed, false otherwise</p></td>
         </tr>
 
     

@@ -22,7 +22,10 @@
       id="hwvScript"
     ></script>
 
-    
+    <link type="text/css" rel="stylesheet" href="css/goldenlayout-base.css" />
+    <link type="text/css" rel="stylesheet" href="css/goldenlayout-light-theme.css" />
+    <script type="text/javascript" src="js/goldenlayout.min.js"></script>
+
 
     <script type="text/javascript" src="js/jquery.minicolors.min.js"></script>
     <script type="text/javascript" src="js/web_viewer_ui.js?v=453b4b8" id="hwvUI"></script>
@@ -43,19 +46,15 @@
     <link rel="stylesheet" href="css/PropertyWindow.css" type="text/css" />
     <link rel="stylesheet" href="css/ViewerSettings.css" type="text/css" />
     <link rel="stylesheet" href="css/jquery.minicolors.css" type="text/css" />
-
-
-    <link rel="stylesheet" href="css/contextMenu.min.css" type="text/css" />
-    <script type="text/javascript" src="js/contextMenu.min.js"></script>
-
     
-        <link rel="stylesheet" href="css/Relationships.css" type="text/css" />
+    <link rel="stylesheet" href="css/Relationships.css" type="text/css" />
 
     
     <script type="text/javascript" src="js/app/TextBoxTitleBar.js"></script>
 
     <script type="text/javascript" src="js/app/startup.js"></script>
 
+    <link rel="stylesheet" href="css/extra.css" type="text/css" />
 
     <script type="module" id="viewerStartup">
 
@@ -123,7 +122,6 @@
         <canvas id="curveMarkupCanvas" width="800" height="600"></canvas>
       </div> -->
       <div id="viewerContainer"></div>
-      <input type="button" id="viewermenu1button" value="..." style="right:5px; position:absolute;z-index:1">
 
       <!-- Toolbar HTML-->
       <div id="toolBar">
@@ -1209,6 +1207,26 @@
         </div>
       </div>
     </div>
+
+    <div id="settingsdiv" style="width:100%;height:100%;position:relative;font-size:12px">    
+      <!-- <input type="button" class="button-4" id="lockplanebutton" onclick='new TextBoxTitleBar(textBoxOperator.getTextBoxManager(), textBoxOperator);' value="Text Box With Title Bar"><br>
+      <input type="button" class="button-4" onclick='textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallback);' value="Custom Text Box"><br>
+      <input type="button" class="button-4" onclick='textBoxOperator.setCreateMarkupItemCallback(createMarkupItemCallbackQuill);' value="Quill Text Box"><br> -->
+        Type:<select id="textBoxTypeSelect" onChange = "textBoxTypeChanged()" style="margin-top:5px" value="">        
+        <option value="Minimal">Minimal</option>
+        <option value="Title Bar">Title Bar</option>
+        <option value="Custom">Custom</option>
+        <option value="Quill">Quill</option>
+        </select><br>
+        <input type="checkbox" id="allowCreationCheck" onclick="switchAllowCreation()" checked="checked">Allow Creation<br>
+        <input type="checkbox" id="createPinsCheck" onclick="switchCreatePins()" >Create Pins<br>
+        <input type="checkbox" id="autohideCheck" onclick="switchAutoHide()" >Auto Hide<br>
+        <h1>&#8205</h1>
+        <input type="button" class="button-4" onclick='textBoxOperator.getTextBoxManager().delete(textBoxOperator.getTextBoxManager().getSelected().getUniqueId())' value="Delete Selected">
+        <input type="button" class="button-4" onclick='textBoxOperator.getTextBoxManager().deleteAll()' value="Delete All"><br>
+
+  </div>
+ 
 
   </body>
 </html>

@@ -5,9 +5,8 @@ export class QuillTextBoxMarkupItem extends TextBoxMarkupItem {
 
 
 
-    constructor(textBoxManager, firstPoint, secondPoint = null,secondPointRel = null,fontStyle = "monospace", fontSize = "12px", backgroundColor =  new Communicator.Color(238,243,249),
-         circleColor = new Communicator.Color(128,128,255), circleRadius = 4.0, maxWidth = 300, pinned = false, extraDiv = null,uniqueid = null, userdata = null, checkVisibility = false, showLeaderLine = true) {
-        super(textBoxManager, firstPoint, secondPoint,secondPointRel,fontStyle, fontSize, backgroundColor,circleColor, circleRadius, maxWidth, pinned, extraDiv,uniqueid, userdata, checkVisibility, showLeaderLine);
+    constructor(textBoxManager, firstPoint, config) {
+        super(textBoxManager, firstPoint,config);
     }
 
 

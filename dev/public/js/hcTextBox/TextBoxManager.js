@@ -1,3 +1,4 @@
+import { PinUtility } from './PinUtility.js';
 
 /** This class manages all textbox markup elements.*/
 export class TextBoxManager {
@@ -11,6 +12,8 @@ export class TextBoxManager {
         this._markups = [];
         this._useMarkupManager = useMarkupManager;
         this._markupUpdatedCallback = null;
+
+        PinUtility.createMeshes(viewer, 2,2);
 
         let _this = this;
         if (!this._useMarkupManager) {
@@ -50,6 +53,8 @@ export class TextBoxManager {
         });
 
     }
+
+
     /**
        * Sets a callback that gets triggered when a markup is updated
        * @param  {callback} callback - callback function with the markup element as parameter
@@ -96,6 +101,18 @@ export class TextBoxManager {
             }
         }
         this._viewer.view.setPointVisibilityTest(visibilities);
+    }
+
+    deleteAll() {
+        for (let i = 0; i < this._markups.length; i++) {
+
+            if (this.getMarkupUpdatedCallback()) {
+                this.getMarkupUpdatedCallback()(this._markups[i], true);
+            }
+            this._viewer.markupManager.unregisterMarkup(this._markups[i].getMarkupId());
+            this._markups[i].destroy();
+        }
+        this._markups = [];
     }
 
     /**
@@ -207,6 +224,23 @@ export class TextBoxManager {
             this.add(markup);
         }
 
+        this.refreshMarkup();
+    }
+
+    isPinGeometry(nodeid) {
+        for (let i = 0; i < this._markups.length; i++) {
+            if (this._markups[i].isPinGeometry(nodeid)) {
+                return this._markups[i];
+            }
+        }
+        return false;
+    }
+
+    
+    hideAll() {
+        for (let i = 0; i < this._markups.length; i++) {
+            this._markups[i].hide();           
+        }
         this.refreshMarkup();
     }
 }

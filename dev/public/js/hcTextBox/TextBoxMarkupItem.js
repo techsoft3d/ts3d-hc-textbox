@@ -1,3 +1,5 @@
+import { PinUtility } from './PinUtility.js';
+
 /** This class represents a single textbox markup element.*/
 
 export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
@@ -9,9 +11,28 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      */
 
     static fromJson(textBoxManager,json) {
-        let markup = new TextBoxMarkupItem(textBoxManager, Communicator.Point3.fromJson(json.firstPoint), Communicator.Point3.fromJson(json.secondPoint), Communicator.Point3.fromJson(json.secondPointRel), 
-        json.font, json.fontSize, Communicator.Color.fromJson(json.backgroundColor), Communicator.Color.fromJson(json.circleColor), json.circleRadius, 
-        json.maxWidth, json.pinned,json.extraDiv ? json.extraDiv : null, json.uniqueid,json.userdata, json.showLeaderLine);
+        let config = {          
+            secondPoint : Communicator.Point3.fromJson(json.secondPoint),
+            secondPointRel : Communicator.Point2.fromJson(json.secondPointRel),
+            font : json.font,
+            fontSize : json.fontSize,
+            backgroundColor : Communicator.Color.fromJson(json.backgroundColor),
+            circleColor : Communicator.Color.fromJson(json.circleColor),
+            circleRadius : json.circleRadius,
+            maxWidth : json.maxWidth,
+            fixed : json.fixed,
+            extraDiv : json.extraDiv ? json.extraDiv : null,
+            uniqueid : json.uniqueid,
+            userdata : json.userdata,
+            showLeaderLine: json.showLeaderLine,         
+            allowFirstPointMove: json.allowFirstPointMove,
+            allowSecondPointMove: json.allowSecondPointMove,
+            hasPin: json.hasPin,
+            pinSphereColor : Communicator.Color.fromJson(json.pinSphereColor),
+            pinStemColor : Communicator.Color.fromJson(json.pinStemColor)
+        };
+
+        let markup = new TextBoxMarkupItem(textBoxManager, Communicator.Point3.fromJson(json.firstPoint),config);
         markup.setText(decodeURIComponent(json.text));
         markup.setCheckVisibility(json.checkVisibility);
         markup.deselect();
@@ -31,76 +52,136 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      * Creates a new TextBoxManager object
      * @param  {TextBoxManager} textBoxManager - The manager that will own this markup item
      * @param  {Point3} firstPoint - The position of insertion point on the model
-     * @param  {Point3} secondPoint - The position of the textbox in relation to the insertion point
-     * @param  {Point2} secondPointRel - A normalized 2D point that is used if the position of the textbox is fixed
-     * @param  {string} fontStyle - The font used for the textbox text
-     * @param  {string} fontSize - The font size used for the textbox text
-     * @param  {Color} backgroundColor - The background color of the textbox
-     * @param  {Color} circleColor - The color of the circle that is rendered at the insertion point
-     * @param  {number} circleRadius - The radius of the circle that is rendered at the insertion point
-     * @param  {number} maxWidth - The maximum width of the textbox
-     * @param  {boolean} pinned - If true, the textbox will be fixed in position
-     * @param  {string} extraDiv - Extra div text to be added to the textbox
-     * @param  {guid} uniqueid - Id of Markup Element
-     * @param  {object} userdata - User data to be stored with the markup element
-     * @param  {boolean} checkVisibility - If true, the textbox will be hidden if the insertion point is not visible
-     * @param  {boolean} showLeaderLine - If true, the textbox will have a leader line
+     * @param  {Object} config - Text Box Configuration:
+     *  secondPoint - The position of the textbox in relation to the insertion point  
+     *  secondPointRel - A normalized 2D point that is used if the position of the textbox is fixed  
+     *  fontStyle - The font used for the textbox text  
+     *  fontSize - The font size used for the textbox text  
+     *  backgroundColor - The background color of the textbox  
+     *  circleColor - The color of the circle that is rendered at the insertion point  
+     *  circleRadius - The radius of the circle that is rendered at the insertion point  
+     *  maxWidth - The maximum width of the textbox  
+     *  fixed - If true, the textbox will be fixed in position  
+     *  extraDiv - Extra div text to be added to the textbox  
+     *  uniqueid - Id of Markup Element  
+     *  userdata - User data to be stored with the markup element  
+     *  checkVisibility - If true, the textbox will be hidden if the insertion point is not visible  
+     *  showLeaderLine - If true, the textbox will have a leader line  
+     *  hasPin - If true, the textbox will have a 3d pin object
+     *  allowFirstPointMove - If true, the insertion point can be moved
+     *  allowSecondPointMove - If true, the textbox can be moved
      */    
-    constructor(textBoxManager, firstPoint, secondPoint = null,secondPointRel = null,fontStyle = "monospace", fontSize = "12px", backgroundColor =  new Communicator.Color(238,243,249),
-         circleColor = new Communicator.Color(128,128,255), circleRadius = 4.0, maxWidth = 300, pinned = false, extraDiv = null,uniqueid = null, userdata = null, checkVisibility = false, showLeaderLine = true) {
+    constructor(textBoxManager,firstPoint,config) {
+
         super();
         this._textBoxManager = textBoxManager;
         this._viewer = textBoxManager._viewer;
-        this._font = fontStyle;
-        this._fontSize = fontSize;
+        this._font = config && config.fontStyle ? config.fontStyle : "monospace";
+        this._fontSize = config && config.fontSize ? config.fontSize : "12px";
         this._created = true;
-        if (uniqueid) {
-            this._uniqueid = uniqueid;
+        if (config && config.uniqueid) {
+            this._uniqueid = config.uniqueid;
         }
         else {
             this._uniqueid = this._generateGUID();
         }
-        this._backgroundColor = backgroundColor;
-        this._circleColor = circleColor;
-        this._circleRadius = circleRadius;
+        this._backgroundColor = config && config.backgroundColor ? config.backgroundColor : new Communicator.Color(238,243,249);
+        this._circleColor = config && config.circleColor ? config.circleColor : new Communicator.Color(128,128,255);
+        this._circleRadius = config && config.circleRadius ? config.circleRadius : 4.0;
+        
+        this._pinSphereColor = config && config.pinSphereColor ? config.pinSphereColor : new Communicator.Color(255,255,255);
+        this._pinStemColor = config && config.pinStemColor ? config.pinStemColor : new Communicator.Color(0,0,0);
+
+        
         this._firstPoint = firstPoint.copy();
         this._allowEditing = true;
-        this._extraDiv = extraDiv;
-        this._userdata = userdata;
+        this._extraDiv =  config && config.extraDiv ? config.extraDiv : null;
+        this._userdata = config && config.userdata ? config.userdata : null;
 
         this._selected = false;
         
         this._textHit = true;
-        this._maxWidth = maxWidth;
+        this._maxWidth = config && config.maxWidth ? config.maxWidth : 300;
 
-        this._pinned = pinned;
-        this._checkVisibility = checkVisibility;
+        this._fixed = config && config.fixed ? config.fixed : false;
+        this._checkVisibility = config && config.checkVisibility ? config.checkVisibility : false;
         this._lineGeometryShape = new Communicator.Markup.Shape.Polyline();
         this._circleGeometryShape = new Communicator.Markup.Shape.Circle();
 
-        if (secondPoint != null) {
-            this._secondPoint = secondPoint.copy();
+        if (config && config.secondPoint != null) {
+            this._secondPoint = config.secondPoint.copy();
         }
         else {
             this.setSecondPoint(firstPoint.copy());
         }
-        if (secondPointRel != null) {
-            this._secondPointRel = secondPointRel.copy();
+
+        if (config && config.secondPointRel != null) {
+            this._secondPointRel = config.secondPointRel.copy();
         }
 
         this._initialize();
         this._hidden = false;
-        this._showLeaderLine = showLeaderLine;
+        this._showLeaderLine = config && config.showLeaderLine ? config.showLeaderLine : true;
+        this._hasPin = config && config.hasPin ? config.hasPin : false;
+        this._pinSize = config && config.pinSize ? config.pinSize : 0.025;
+        this._allowFirstPointMove = config && config.allowFirstPointMove ? config.allowFirstPointMove : true;
+        this._allowSecondPointMove = config && config.allowSecondPointMove ? config.allowSecondPointMove : true;
     }
+
+     /**
+     * Determines if the provided nodeid is part of the note-pin geometry
+     * @param  {nodeid} nodeid - Node Id
+     * @return {boolean} - True if the nodeid is part of the note-pin geometry, false otherwise
+     */
+    isPinGeometry(nodeid) {
+        if (!this._hasPin) {
+            return false;
+        }
+        if (this._stemID == nodeid || this._sphereID == nodeid) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * Returns true if first point can be moved
+     * @return {boolean} - True if first point can be moved, false otherwise
+     */    
+    getAllowFirstPointMove() {
+        return this._allowFirstPointMove;
+    }
+
+     /**
+     * Returns true if second point can be moved
+     * @return {boolean} - True if second point can be moved, false otherwise
+     */    
+
+    getAllowSecondPointMove() {
+        return this._allowSecondPointMove;
+    }
+
+    
+
+    async setupPin(position, normal) {
+        if (this._hasPin) {
+            let matrix = PinUtility.createPinTransformationMatrix(position,normal,this._pinSize);
+            this._stemID = await PinUtility.createPinStemInstance(this._viewer, matrix,this._pinStemColor);
+            this._sphereID = await PinUtility.createPinSphereInstance(this._viewer, matrix, this._pinSphereColor);
+            let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
+            this._firstPoint =  pinBounding.center();
+            this._secondPoint =  pinBounding.center();
+            this._allowFirstPointMove = false;
+        }
+    }
+
 
     /**
      * Shows the markup (if hidden)
      */    
     show() {
         if (this._hidden) { 
-            this._hidden = false;
-            $(this._textBoxDiv).css("display","flex");
-            $(this._svgElement).css("display","block");
+            this._hidden = false;        
         }
     }
 
@@ -109,16 +190,15 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
      */    
     hide() {
         if (!this._hidden) {
-            this._hidden = true;
-            $(this._textBoxDiv).css("display","none");
-            $(this._svgElement).css("display","none");
+            this._hidden = true;           
         }
     }
 
     /**
      * Retrieves the markup's hidden state
      * @return {boolean} - True if the markup is hidden, false otherwise
-     */    getHidden() {
+     */    
+    getHidden() {
         return this._hidden;
     }
 
@@ -184,6 +264,11 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         if (!this._textBoxManager.getUseMarkupManager()) {
             $(this._svgElement).remove();
         }
+
+        if (this._hasPin) {
+            this._viewer.model.deleteNode(this._sphereID);
+            this._viewer.model.deleteNode(this._stemID);
+        }
     }
 
     refreshText() {
@@ -236,13 +321,17 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             "secondPoint": this._secondPoint.toJson(),
             "secondPointRel": this._secondPointRel.toJson(),
             "maxWidth": this._maxWidth,
-            "pinned": this._pinned,
+            "fixed": this._fixed,
             "allowEditing": this._allowEditing,
             "text": this._textBoxText ? encodeURIComponent($(this._textBoxText).val()) : "",
             "userdata": this._userdata,
             "checkVisibility": this._checkVisibility,
-            "showLeaderLine": this._showLeaderLine
-
+            "showLeaderLine": this._showLeaderLine,
+            "allowFirstPointMove": this._allowFirstPointMove,
+            "allowSecondPointMove": this._allowSecondPointMove,
+            "hasPin": this._hasPin,
+            "pinSphereColor": this._pinSphereColor.toJson(),
+            "pinStemColor": this._pinStemColor.toJson()
         };
         return json;
     }
@@ -258,16 +347,16 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     }
 
   /**
-     * Sets the markup's pinned state
-     * @param  {boolean} pinned - True if the markup is pinned, false otherwise
+     * Sets the markup's fixed state
+     * @param  {boolean} fixed - True if the markup is fixed, false otherwise
      */    
-    setPinned(pinned) {
-        if (pinned != this._pinned) {
-            if (this._pinned) {
+    setFixed(fixed) {
+        if (fixed != this._fixed) {
+            if (this._fixed) {
                 this.setSecondPoint(this._firstPoint);
             }
             this._textBoxManager.refreshMarkup();
-            this._pinned = pinned;
+            this._fixed = fixed;
             if (this._textBoxManager.getMarkupUpdatedCallback()) {
                 this._textBoxManager.getMarkupUpdatedCallback()(this);
             }
@@ -276,11 +365,11 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
 
  /**
-    * Returns the markups pinned state
-    * @return {boolean} - True if the markup is pinned, false otherwise
+    * Returns the markups fixed state
+    * @return {boolean} - True if the markup is fixed, false otherwise
     */    
-    getPinned() {
-        return this._pinned;
+    getFixed() {
+        return this._fixed;
     }
 
 
@@ -306,14 +395,31 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     }
 
     draw() {
-        if (this._hidden) {
-            return;
+        if (this._hidden) {            
+            $(this._textBoxDiv).css("display","none");
+            // $(this._svgElement).css("display","none");
+            // return;
         }
+        else {
+            $(this._textBoxDiv).css("display","flex");
+            $(this._svgElement).css("display","block");
+        }
+        
 
         $(this._svgElement).empty();
         const renderer = this._viewer.markupManager.getRenderer();
         const view = this._viewer.view;
         this._lineGeometryShape.clearPoints();
+
+        if (this._hasPin && !this._fixed) {
+            (async () => {
+                let pinBounding = await this._viewer.model.getNodeRealBounding(this._sphereID);
+                this._firstPoint =  pinBounding.center();
+                if (!this._allowSecondPointMove) {
+                    this._secondPoint =  pinBounding.center();
+                }
+            })();
+        }
         let p1 = Communicator.Point2.fromPoint3(view.projectPoint(this._firstPoint));
         this._lineGeometryShape.pushPoint(p1);
         this._circleGeometryShape.setCenter(p1);
@@ -321,7 +427,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         let dims = this._getDivDimensions();
 
         let p2;
-        if (this._pinned) {
+        if (this._fixed) {
             p2 = new Communicator.Point2(this._secondPointRel.x * dims.width,this._secondPointRel.y * dims.height);
         }
         else {
@@ -376,13 +482,20 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             this._lineGeometryShape.pushPoint(fsecond);
 
             if (!this._textBoxManager.getUseMarkupManager()) {
-                this._addPolylineElement(this._lineGeometryShape);
-                this._addCircleElement(this._circleGeometryShape);
+                if (!this._hidden) {
+                    this._addPolylineElement(this._lineGeometryShape);
+                }
+                if (!this._hasPin || !this._hidden) {
+                    this._addCircleElement(this._circleGeometryShape);
+                }
             }
             else {
-
-                renderer.drawPolyline(this._lineGeometryShape);
-                renderer.drawCircle(this._circleGeometryShape);
+                if (!this._hidden) {
+                    renderer.drawPolyline(this._lineGeometryShape);
+                }
+                if (!this._hasPin || !this._hidden) {
+                    renderer.drawCircle(this._circleGeometryShape);
+                }
             }
         }
 
@@ -395,50 +508,51 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         }
     }
 
-    hit(point) {
-        if (this._hidden) {
-            return false;
-        }
-
+    hit(point) {      
+        
         let minx =  parseInt($(this._textBoxDiv).css("left"));
         let miny =  parseInt($(this._textBoxDiv).css("top"));
         let maxx = parseInt(minx) + parseInt($(this._textBoxDiv).css("width"));
         let maxy = parseInt(miny) + parseInt($(this._textBoxDiv).css("height"));
 
    
-        if (point.x >= minx && point.x <= maxx &&
-            point.y >= miny && point.y <= maxy) {
-                this._textHit = true;
-                return true;
-        }
-
-        if (this._extraTextDiv) {
-            let pos = $(this._extraTextDiv).position();
-            minx = minx + pos.left;
-            miny = miny + pos.top;
-            let maxx = minx + parseInt($(this._extraTextDiv).css("width"));
-            let maxy = miny + parseInt($(this._extraTextDiv).css("height"));
-
-
+        if (!this._hidden) {
             if (point.x >= minx && point.x <= maxx &&
                 point.y >= miny && point.y <= maxy) {
-              //  this.deselect();
-                this._textHit = true;
-                return true;
+                    this._textHit = true;
+                    return true;
+            }
+
+            if (this._extraTextDiv) {
+                let pos = $(this._extraTextDiv).position();
+                minx = minx + pos.left;
+                miny = miny + pos.top;
+                let maxx = minx + parseInt($(this._extraTextDiv).css("width"));
+                let maxy = miny + parseInt($(this._extraTextDiv).css("height"));
+
+
+                if (point.x >= minx && point.x <= maxx &&
+                    point.y >= miny && point.y <= maxy) {
+                //  this.deselect();
+                    this._textHit = true;
+                    return true;
+                }
             }
         }
 
 
-
-        let p1 = Communicator.Point2.fromPoint3(this._viewer.view.projectPoint(this._firstPoint));
-        minx =  p1.x - 7;
-        miny =  p1.y - 7;
-        maxx =  p1.x + 7;
-        maxy =  p1.y + 7;
-        if (point.x >= minx && point.x <= maxx &&
-            point.y >= miny && point.y <= maxy) {
+        if (!this._hasPin || !this._hidden) {
+            let p1 = Communicator.Point2.fromPoint3(this._viewer.view.projectPoint(this._firstPoint));
+            minx = p1.x - 7;
+            miny = p1.y - 7;
+            maxx = p1.x + 7;
+            maxy = p1.y + 7;
+            if (point.x >= minx && point.x <= maxx &&
+                point.y >= miny && point.y <= maxy) {
                 this._textHit = false;
+              
                 return true;
+            }
         }
         this.deselect();
         return false;            

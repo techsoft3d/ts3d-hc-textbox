@@ -27,11 +27,46 @@ export class TextBoxOperator {
 
         this._mouseActivationCallback = null;
 
+        this._markupConfig = {};
+
+        this._autoHide = false;
+       
         // this._mouseActivationCallback = function(event) {
         //     return (event.getButton() == Communicator.Button.Left && event.shiftDown());
         // };
     }
+   /**
+       * Sets markup configuration object for creating new markup
+       * @param  {Object} config - Markup Configuration Object
+     */
+    setMarkupConfig(config) {
+        this._markupConfig = config;
+    }
 
+    
+    /**
+       * Retrieves current Markup Configuration Object
+       * @return  {Object}  - Markup Configuration Object
+     */
+    getMarkupConfig() {
+        return this._markupConfig;
+    }
+
+    /**
+       * Retrieves if markup is automatically hidden when mouse clicked outside of markup
+       * @return  {boolean}  - Autohide State
+     */
+    getAutoHide() {
+        return this._autoHide;
+    }
+
+    /**
+       * Sets if markup is automatically hidden when mouse clicked outside of markup
+       * @param  {boolean} autoHide - If true, markup is automatically hidden when mouse clicked outside of markup
+     */
+    setAutoHide(autoHide) {
+        this._autoHide = autoHide;
+    }
 
   /**
      * Sets one of the three markup creation modes.  
@@ -72,11 +107,12 @@ export class TextBoxOperator {
     onMouseDown(event) {
 
         this._handled = false;
+        this._mouseMoved = false;
         if ((!this._mouseActivationCallback && event.getButton() == Communicator.Button.Left) ||
             (this._mouseActivationCallback && this._mouseActivationCallback(event))) {
             const markup = this._textBoxManager.pickMarkupItem(event.getPosition());
             if (markup && markup instanceof TextBoxMarkupItem) {
-                if (markup.getPinned()) {
+                if (markup.getFixed()) {
                     markup.unprojectTextAnchor();                    
                 }
                 this._offset = Communicator.Point2.subtract(event.getPosition(), this._viewer.view.projectPoint(markup.getSecondPoint()));
@@ -88,7 +124,7 @@ export class TextBoxOperator {
             }
             else {
                 if (this._allowCreation) {
-                    this._addMarkupItem(event.getPosition());
+                    this._addMarkupItem(event.getPosition());                 
                     if (this._allowCreation == 1) {
                         this._allowCreation = 0;
                     }
@@ -101,7 +137,7 @@ export class TextBoxOperator {
     }
     onMouseMove(event) {
         this._dClickTime = null;
-
+        this._mouseMoved = true;
         event.setHandled(this._handled);
         if (this._activeMarkupItem !== null && this._handled) {
             this._updateActiveMarkupItem(event.getPosition());
@@ -110,14 +146,28 @@ export class TextBoxOperator {
 
     onMouseUp(event) {
 
-        if (this._dClickTime !== null) {
+        if (this._dClickTime !== null) {           
+            if (this._activeMarkupItem.getHidden()) {
+                this._activeMarkupItem.show();
+                this._textBoxManager.refreshMarkup()
+            }
+            else {
                 this._activeMarkupItem.select();
-
+            }
+        }
+        else {
+            if (!this._mouseMoved) {
+                if (this._autoHide) {
+                    this._textBoxManager.hideAll();
+                }
+            }
         }
         this._dClickTime = null;
         event.setHandled(this._handled);
         this._activeMarkupItem = null;
     }
+
+    
 
     async _addMarkupItem(position) {
         const model = this._viewer.model;
@@ -127,7 +177,7 @@ export class TextBoxOperator {
             return;
         }
         const nodeId = selectionItem.getNodeId();
-        const selectionPosition = selectionItem.getPosition();
+        let selectionPosition = selectionItem.getPosition();
         const faceEntity = selectionItem.getFaceEntity();
         if (nodeId === null || selectionPosition === null || faceEntity === null) {
             return;
@@ -136,12 +186,24 @@ export class TextBoxOperator {
         if (parentNodeId === null) {
             return;
         }
+
+        this._mouseMoved = true;
+        let pinMarkup = this._textBoxManager.isPinGeometry(nodeId);
+        if (pinMarkup) {
+            pinMarkup.show();
+            this._textBoxManager.refreshMarkup();
+            this._handled = true;
+            return;
+        }
         if (!this._createMarkupItemCallback) {
-            this._activeMarkupItem = new TextBoxMarkupItem(this._textBoxManager, selectionPosition);
+            this._activeMarkupItem = new TextBoxMarkupItem(this._textBoxManager, selectionPosition, this._markupConfig);
         }
         else {
-            this._activeMarkupItem = this._createMarkupItemCallback(this._textBoxManager, selectionPosition);
+            this._activeMarkupItem = this._createMarkupItemCallback(this._textBoxManager, selectionPosition, this._markupConfig);
         }
+
+        this._activeMarkupItem.setupPin(selectionItem.getPosition(),faceEntity.getNormal());
+
         this._textBoxManager.add(this._activeMarkupItem);
 
       
@@ -157,6 +219,9 @@ export class TextBoxOperator {
         }
 
         if (!this._activeMarkupItem._textHit) {
+            if (!this._activeMarkupItem.getAllowFirstPointMove()) {
+                return;
+            }
 
             const model = this._viewer.model;
             const config = new Communicator.PickConfig(Communicator.SelectionMask.Face);
@@ -199,6 +264,9 @@ export class TextBoxOperator {
             return;
         }
 
+        if (!this._activeMarkupItem.getAllowSecondPointMove()) {
+            return;
+        }
         let c = this._viewer.view.getCamera();
         let pos = c.getPosition();
         let tar = c.getTarget();

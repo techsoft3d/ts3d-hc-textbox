@@ -1,5 +1,8 @@
 # TextBox Markup
 
+## Version Update (0.3.0)
+* Note Pin support added (see demo for usage)
+
 ## Version Update (0.2.1) 
 *  Quill Editor Support added to demo
 
@@ -82,14 +85,16 @@ myTextBoxOperator.setMouseActivationCallback(function(event) {
 The textbox markup has a lot of different properties that can be set during creation. In order to set those properties when markup creation is handled by the TextBox operator there is a callback that can be set via the `setCreateMarkupCallback` function. This callback is triggered when a new markup is created and allows you to set the properties of the markup before it is added in the constructor. See below for an example that sets the background color of the textbox to red:
 
 ```
-    function createMarkupItemCallback(manager, pos) {
+    function createMarkupItemCallback(manager, pos, config) {
         let backgroundColor = new Communicator.Color(255, 0, 0);
-        let markup = new hcTextBox.TextBoxMarkupItem(manager, pos, undefined, undefined, undefined, undefined, backgroundColor,
-            undefined, undefined, undefined, true, undefined, undefined, null, false);
+        let config = {
+            backgroundColor: backgroundColor
+        }
+        let markup = new hcTextBox.TextBoxMarkupItem(manager, pos, config);
         return markup;
     }
 
-  myTextBoxOperator.setCreateMarkupItemCallback(function (manager, pos) { return createMarkupItemCallback(manager, pos); });
+  myTextBoxOperator.setCreateMarkupItemCallback(function (manager, pos) { return createMarkupItemCallback(manager, pos,config); });
 
 ```
 
