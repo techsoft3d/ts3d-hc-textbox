@@ -32,7 +32,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             pinStemColor : Communicator.Color.fromJson(json.pinStemColor)
         };
 
-        let markup = new TextBoxMarkupItem(textBoxManager, json.firstPoint,config);
+        let markup = new TextBoxMarkupItem(textBoxManager, Communicator.Point3.fromJson(json.firstPoint),config);
         markup.setText(decodeURIComponent(json.text));
         markup.setCheckVisibility(json.checkVisibility);
         markup.deselect();
@@ -88,6 +88,11 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._backgroundColor = config && config.backgroundColor ? config.backgroundColor : new Communicator.Color(238,243,249);
         this._circleColor = config && config.circleColor ? config.circleColor : new Communicator.Color(128,128,255);
         this._circleRadius = config && config.circleRadius ? config.circleRadius : 4.0;
+        
+        this._pinSphereColor = config && config.pinSphereColor ? config.pinSphereColor : new Communicator.Color(255,255,255);
+        this._pinStemColor = config && config.pinStemColor ? config.pinStemColor : new Communicator.Color(0,0,0);
+
+        
         this._firstPoint = firstPoint.copy();
         this._allowEditing = true;
         this._extraDiv =  config && config.extraDiv ? config.extraDiv : null;
@@ -119,8 +124,6 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
         this._showLeaderLine = config && config.showLeaderLine ? config.showLeaderLine : true;
         this._hasPin = config && config.hasPin ? config.hasPin : false;
         this._pinSize = config && config.pinSize ? config.pinSize : 0.025;
-        this._pinSphereColor = config && config.pinSphereColor ? config.pinSphereColor : undefined;
-        this._pinStemColor = config && config.pinStemColor ? config.pinStemColor : undefined;
         this._allowFirstPointMove = config && config.allowFirstPointMove ? config.allowFirstPointMove : true;
         this._allowSecondPointMove = config && config.allowSecondPointMove ? config.allowSecondPointMove : true;
     }
@@ -323,8 +326,12 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
             "text": this._textBoxText ? encodeURIComponent($(this._textBoxText).val()) : "",
             "userdata": this._userdata,
             "checkVisibility": this._checkVisibility,
-            "showLeaderLine": this._showLeaderLine
-
+            "showLeaderLine": this._showLeaderLine,
+            "allowFirstPointMove": this._allowFirstPointMove,
+            "allowSecondPointMove": this._allowSecondPointMove,
+            "hasPin": this._hasPin,
+            "pinSphereColor": this._pinSphereColor.toJson(),
+            "pinStemColor": this._pinStemColor.toJson()
         };
         return json;
     }
