@@ -243,4 +243,12 @@ export class TextBoxManager {
         }
         this.refreshMarkup();
     }
+
+    setMouseClickPosition(position) {
+        this._mouseClickPosition = position;
+    }
+
+    getMouseClickPosition() {
+        return this._mouseClickPosition;
+    }
 }

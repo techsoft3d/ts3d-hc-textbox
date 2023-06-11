@@ -108,6 +108,9 @@ export class TextBoxOperator {
 
         this._handled = false;
         this._mouseMoved = false;
+
+        this._textBoxManager.setMouseClickPosition(event.getPosition().copy());
+
         if ((!this._mouseActivationCallback && event.getButton() == Communicator.Button.Left) ||
             (this._mouseActivationCallback && this._mouseActivationCallback(event))) {
             const markup = this._textBoxManager.pickMarkupItem(event.getPosition());
