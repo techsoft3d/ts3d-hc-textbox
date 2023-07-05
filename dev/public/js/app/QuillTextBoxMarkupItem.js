@@ -16,9 +16,9 @@ export class QuillTextBoxMarkupItem extends TextBoxMarkupItem {
         // html += '</div>';
 
         let quillid = "quill" + this._uniqueid;
-        html += '<div id="' + this._uniqueid + '" style="z-index:1;display:block;width:380px;height:250px;opacity:1.0;outline-style:solid;outline-width:2px;position: absolute;';  //set opacity to 1.0 initially here to avoid initial flicker on creation
+        html += '<div id="' + this._uniqueid + '" style="z-index:1;display:block;height:250px;opacity:1.0;outline-style:solid;outline-width:2px;position: absolute;';  //set opacity to 1.0 initially here to avoid initial flicker on creation
         html += 'top:0px; left: 0px;outline-color: rgb(76, 135, 190);opacity:0;background-color: rgb(' + this._backgroundColor.r + ',' + this._backgroundColor.g + ',' + this._backgroundColor.b + ');">';
-        html += '<div id="' + quillid + '" style="position:absolute;display:block;width:100%;height:calc(100% - 42px);z-index:3">'; 
+        html += '<div id="' + quillid + '" style="position:absolute;display:block;width:100%;height:calc(100% - 42px);z-index:0;top:42px">'; 
         html += '</div>';
         html += '<div style="position:absolute;display:block;width:100%;height:42px;top:0px;background:white;z-index:-1"><div>'; 
         html += '</div>';
