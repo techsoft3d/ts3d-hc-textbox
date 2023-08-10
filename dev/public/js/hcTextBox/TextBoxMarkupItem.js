@@ -94,7 +94,7 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
 
         
         this._firstPoint = firstPoint.copy();
-        this._allowEditing = true;
+        this._allowEditing = false;
         this._extraDiv =  config && config.extraDiv ? config.extraDiv : null;
         this._userdata = config && config.userdata ? config.userdata : null;
 
@@ -245,6 +245,10 @@ export class TextBoxMarkupItem extends Communicator.Markup.MarkupItem {
     */
     setAllowEditing(allow) {
         this._allowEditing = allow;
+        if(!this._allowEditing) {
+           this.deselect();
+        }
+        
     }
 
  /**
